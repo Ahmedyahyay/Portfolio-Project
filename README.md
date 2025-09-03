@@ -7,4 +7,4 @@ The Personal Nutrition Assistant is a mobile/web application designed to empower
 ## Installation
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/Personal-Nutrition-Assistant.git
+   git clone https://github.com/Ahmedyahyay/Portfolio-Project.git
