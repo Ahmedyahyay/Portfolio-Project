@@ -31,14 +31,14 @@
 
 Web Application Architecture:
   - Front-end: React (or any modern framework)
-  - Back-end: Node.js with Express
+  - Back-end: Python Flask
   - Database: PostgreSQL (or Firebase)
   - External API: Trusted nutrition database (USDA or Edamam)
 Data Flow:
   - User interacts with the front-end (registration, login, data input)
-  - Front-end sends requests to the server (authentication, BMI calculation, meal recommendations)
-  - Server queries the database and external nutrition API
-  - Server returns filtered meal options to the front-end
+  - Front-end sends requests to the Flask backend (authentication, BMI calculation, meal recommendations)
+  - Flask backend queries the database and external nutrition API
+  - Flask backend returns filtered meal options to the front-end
 
 ---
 
