@@ -26,6 +26,24 @@
 ---
 
 ## 2. System Architecture
+### System Architecture Diagram
+
+```plantuml
+@startuml
+actor User
+User -> Frontend: Interact (register, login, input data)
+Frontend -> Backend: API requests (Flask)
+Backend -> Database: Query/store user, meal, history
+Backend -> NutritionAPI: Fetch meal/nutrition data
+Backend --> Frontend: Filtered meal options
+Frontend --> User: Display recommendations
+Database -- Backend: Data
+NutritionAPI -- Backend: Data
+note right of Backend: Python Flask
+note right of Database: PostgreSQL
+note right of NutritionAPI: USDA/Edamam
+@enduml
+```
 
 
 
@@ -43,6 +61,38 @@ Data Flow:
 ---
 
 ## 3. Components, Classes, and Database Design
+### Entity Relationship Diagram (ERD)
+
+```plantuml
+@startuml
+entity User {
+  id: int
+  email: string
+  password_hash: string
+  height: float
+  weight: float
+  BMI: float
+  allergies: string
+  preferences: string
+}
+entity Meal {
+  id: int
+  name: string
+  type: string
+  calories: int
+  ingredients: string
+  allergens: string
+}
+entity MealHistory {
+  id: int
+  user_id: int
+  meal_id: int
+  date: date
+}
+User ||--o{ MealHistory : has
+Meal ||--o{ MealHistory : included
+@enduml
+```
 
 
 
@@ -66,6 +116,49 @@ MealRecommendationDisplay
 ---
 
 ## 4. Sequence Diagrams
+### Registration & Login Sequence
+```plantuml
+@startuml
+actor User
+participant Frontend
+participant Backend
+User -> Frontend: Submit registration/login
+Frontend -> Backend: API call (register/login)
+Backend -> Database: Store/validate user
+Backend --> Frontend: Success/failure
+Frontend --> User: Confirmation/session
+@enduml
+```
+
+### BMI Verification Sequence
+```plantuml
+@startuml
+actor User
+participant Frontend
+participant Backend
+User -> Frontend: Enter height/weight
+Frontend -> Backend: API call (BMI)
+Backend: Calculate BMI
+Backend --> Frontend: BMI result
+Frontend: Allow/deny access
+@enduml
+```
+
+### Meal Recommendation Sequence
+```plantuml
+@startuml
+actor User
+participant Frontend
+participant Backend
+participant NutritionAPI
+User -> Frontend: Select allergies/preferences
+Frontend -> Backend: API call (get meals)
+Backend -> NutritionAPI: Fetch meals
+Backend: Filter meals
+Backend --> Frontend: 3 meal options/meal
+Frontend --> User: Display meals
+@enduml
+```
 
 
 
