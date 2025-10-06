@@ -1,0 +1,195 @@
+:root {
+  --background: #121826;
+  --surface: #1E293B;
+  --primary: #10B981;
+  --primaryHover: #059669;
+  --textPrimary: #F9FAFB;
+  --textSecondary: #9CA3AF;
+  --error: #F43F5E;
+  --success: #22C55E;
+
+  --fontFamily: 'Cairo', sans-serif;
+  --baseFontSize: 16px;
+  --h1: 2.25rem;
+  --h2: 1.875rem;
+  --h3: 1.5rem;
+
+  --xs: 4px;
+  --sm: 8px;
+  --md: 16px;
+  --lg: 24px;
+  --xl: 32px;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap');
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: var(--fontFamily);
+  font-size: var(--baseFontSize);
+  background: var(--background);
+  color: var(--textPrimary);
+}
+
+.hidden { display: none !important; }
+
+header {
+  position: sticky;
+  top: 0;
+  background: rgba(30,41,59,0.9);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  box-shadow: var(--shadow);
+}
+
+.nav {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: var(--md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand { font-weight: 700; font-size: var(--h3); }
+.nav-actions { display: flex; gap: var(--sm); align-items: center; }
+
+.btn {
+  border: 0;
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.btn-primary { background: var(--primary); color: #052e16; }
+.btn-primary:hover { background: var(--primaryHover); }
+.btn-ghost { background: transparent; color: var(--textSecondary); }
+
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: var(--lg) var(--md);
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--md);
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow);
+  padding: var(--lg);
+}
+
+.login-card, .register-card { grid-column: span 6; }
+.meal-suggestion-card, .bmi-calculator-card { grid-column: span 6; }
+
+.card h2 { margin: 0 0 var(--md) 0; font-size: var(--h2); }
+
+.field { margin-bottom: var(--md); }
+.label { display: block; margin-bottom: var(--xs); color: var(--textSecondary); }
+.input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.04);
+  color: var(--textPrimary);
+}
+
+.error-text { color: var(--error); font-size: 0.9rem; margin-top: var(--xs); }
+.results-container { display: grid; gap: var(--sm); }
+.meal-item { padding: var(--md); background: rgba(255,255,255,0.03); border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.06); }
+.meal-item h3 { margin: 0 0 var(--xs) 0; font-size: var(--h3); }
+.subtle { color: var(--textSecondary); }
+
+@media (max-width: 768px) {
+  .login-card, .register-card, .meal-suggestion-card, .bmi-calculator-card { grid-column: span 12; }
+}
+
+:root {
+  --bg: #0f172a;
+  --card: #111827;
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+  --primary: #22c55e;
+  --primary-contrast: #052e16;
+}
+
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu,
+    Cantarell, Noto Sans, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  background: linear-gradient(135deg, #0f172a, #0b1020);
+  color: var(--text);
+}
+
+header,
+footer {
+  text-align: center;
+  padding: 16px;
+}
+
+main {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  padding: 16px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.card {
+  background: linear-gradient(180deg, var(--card), rgba(17, 24, 39, 0.6));
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+label {
+  display: block;
+  margin: 10px 0 6px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+}
+
+button {
+  margin-top: 12px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 0;
+  background: linear-gradient(135deg, var(--primary), #16a34a);
+  color: #052e16;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.result {
+  margin-top: 10px;
+  font-size: 14px;
+  min-height: 20px;
+}

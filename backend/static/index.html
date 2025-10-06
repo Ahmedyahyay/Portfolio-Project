@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Personal Nutrition Assistant</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <header>
+      <nav class="nav">
+        <div class="brand">مساعد التغذية الشخصي</div>
+        <div class="nav-actions">
+          <div id="navWelcome" class="hidden subtle"></div>
+          <button id="navLogin" class="btn btn-ghost">دخول</button>
+          <button id="navRegister" class="btn btn-primary">تسجيل</button>
+          <button id="navLogout" class="btn btn-primary hidden">خروج</button>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="card login-card" id="loginCard">
+        <h2>تسجيل الدخول</h2>
+        <div class="field">
+          <label class="label" for="loginEmail">البريد الإلكتروني</label>
+          <input
+            class="input"
+            type="email"
+            id="loginEmail"
+            placeholder="name@example.com"
+          />
+        </div>
+        <div class="field">
+          <label class="label" for="loginPassword">كلمة المرور</label>
+          <input
+            class="input"
+            type="password"
+            id="loginPassword"
+            placeholder="********"
+          />
+        </div>
+        <button id="btnLogin" class="btn btn-primary">دخول</button>
+        <div id="loginMsg" class="error-text"></div>
+      </section>
+
+      <section class="card register-card" id="registerCard">
+        <h2>تسجيل مستخدم</h2>
+        <div class="field">
+          <label class="label" for="regEmail">البريد الإلكتروني</label>
+          <input
+            class="input"
+            type="email"
+            id="regEmail"
+            placeholder="name@example.com"
+          />
+        </div>
+        <div class="field">
+          <label class="label" for="regPassword">كلمة المرور</label>
+          <input
+            class="input"
+            type="password"
+            id="regPassword"
+            placeholder="********"
+          />
+        </div>
+        <button id="btnRegister" class="btn btn-primary">تسجيل</button>
+        <div id="registerMsg" class="error-text"></div>
+      </section>
+
+      <section class="card meal-suggestion-card hidden" id="mealCard">
+        <h2>اقتراح وجبة</h2>
+        <div class="field">
+          <label class="label" for="maxCalories">الحد الأقصى للسعرات</label>
+          <input
+            class="input"
+            type="number"
+            id="maxCalories"
+            placeholder="مثال: 600"
+          />
+        </div>
+        <button id="btnSuggest" class="btn btn-primary">اقترح وجبة</button>
+        <div id="suggestError" class="error-text"></div>
+        <div class="results-container" id="results"></div>
+      </section>
+
+      <section class="card bmi-calculator-card hidden" id="bmiCard">
+        <h2>حاسبة مؤشر كتلة الجسم (BMI)</h2>
+        <div class="field">
+          <label class="label" for="bmiHeight">الطول (سم)</label>
+          <input
+            class="input"
+            type="number"
+            id="bmiHeight"
+            placeholder="مثال: 170"
+          />
+        </div>
+        <div class="field">
+          <label class="label" for="bmiWeight">الوزن (كجم)</label>
+          <input
+            class="input"
+            type="number"
+            id="bmiWeight"
+            placeholder="مثال: 70"
+          />
+        </div>
+        <button id="btnCalcBMI" class="btn btn-primary">احسب</button>
+        <div id="bmiResult" class="subtle"></div>
+      </section>
+    </main>
+
+    <footer>
+      <small class="subtle">© 2025</small>
+    </footer>
+
+    <script src="/static/script.js"></script>
+  </body>
+</html>
