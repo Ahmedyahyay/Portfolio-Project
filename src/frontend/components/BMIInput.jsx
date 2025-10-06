@@ -1,32 +1,68 @@
 import React, { useState } from 'react';
 
-export default function BMIInput() {
-  const [h, setH] = useState('');
-  const [w, setW] = useState('');
-  const [res, setRes] = useState('');
+export default function BMIInput({ onCalculate, bmiData }) {
+  const [height, setHeight] = useState('');
+  const [weight, setWeight] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const calc = () => {
-    const height = Number(h);
-    const weight = Number(w);
-    if (!height || !weight) {
-      setRes('الرجاء إدخال الطول والوزن');
-      return;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!height || !weight) return;
+    
+    setLoading(true);
+    try {
+      const result = await onCalculate(Number(height), Number(weight));
+      // BMI data will be displayed via bmiData prop
+    } catch (error) {
+      console.error('BMI calculation error:', error);
+    } finally {
+      setLoading(false);
     }
-    const bmi = weight / ((height/100)**2);
-    const msg = bmi >= 30
-      ? "Your BMI indicates that you’re in the overweight range. Don’t worry — small, consistent steps can lead to big changes! 💪 Keep going!"
-      : "Great job maintaining a healthy weight! Keep up your balanced habits 🌿";
-    setRes(`BMI: ${bmi.toFixed(2)} — ${msg}`);
   };
 
   return (
-    <div>
-      <input type="number" placeholder="Height (cm)" value={h} onChange={e=>setH(e.target.value)} />
-      <input type="number" placeholder="Weight (kg)" value={w} onChange={e=>setW(e.target.value)} />
-      <button onClick={calc}>Calculate BMI</button>
-      <div>{res}</div>
+    <div className="bmi-calculator">
+      <h3>BMI Calculator</h3>
+      <form onSubmit={handleSubmit}>
+        <div style={{ marginBottom: '10px' }}>
+          <label>Height (cm):</label>
+          <input
+            type="number"
+            value={height}
+            onChange={(e) => setHeight(e.target.value)}
+            placeholder="Enter height in cm"
+            min="1"
+            max="300"
+            required
+            style={{ marginLeft: '10px', padding: '5px' }}
+          />
+        </div>
+        <div style={{ marginBottom: '10px' }}>
+          <label>Weight (kg):</label>
+          <input
+            type="number"
+            value={weight}
+            onChange={(e) => setWeight(e.target.value)}
+            placeholder="Enter weight in kg"
+            min="1"
+            max="500"
+            required
+            style={{ marginLeft: '10px', padding: '5px' }}
+          />
+        </div>
+        <button type="submit" disabled={loading} style={{ padding: '8px 16px' }}>
+          {loading ? 'Calculating...' : 'Calculate BMI'}
+        </button>
+      </form>
+      
+      {bmiData && (
+        <div className="bmi-result">
+          <h4>BMI Result</h4>
+          <p><strong>BMI:</strong> {bmiData.bmi}</p>
+          <p><strong>Status:</strong> {bmiData.eligibility ? 'Overweight (BMI ≥ 30)' : 'Normal/Underweight'}</p>
+          <p><strong>Message:</strong> {bmiData.message}</p>
+        </div>
+      )}
     </div>
   );
 }
-
-

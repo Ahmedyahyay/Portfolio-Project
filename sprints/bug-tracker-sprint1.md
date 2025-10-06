@@ -20,3 +20,24 @@
 - **Priority:** Medium
 - **Description:** After submitting correct credentials, the login form clears, but the user remains on the login page.
 - **Resolution:** Fixed the state handling logic in the React app. The router now correctly redirects the user to `/dashboard` upon successful authentication.
+
+### Bug ID: 004
+- **Title:** Meal list endpoint returns items with missing allergen data without flagging.
+- **Status:** Closed
+- **Priority:** Medium
+- **Description:** Some meals lacked allergen metadata causing potential risk.
+- **Resolution:** Added `uncertain_allergens` flag and deprioritized such meals in recommendations.
+
+### Bug ID: 005
+- **Title:** Registration allows zero height or weight.
+- **Status:** Closed
+- **Priority:** High
+- **Description:** Validation missed non-positive height/weight leading to divide-by-zero risk.
+- **Resolution:** Enforced ranges (1–300 cm, 1–500 kg) and error messages.
+
+### Bug ID: 006
+- **Title:** Login response missing full name for greeting.
+- **Status:** Closed
+- **Priority:** Low
+- **Description:** Frontend greeting required concatenated name.
+- **Resolution:** Backend now returns `full_name` in login and registration responses.

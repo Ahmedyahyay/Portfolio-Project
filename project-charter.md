@@ -4,14 +4,14 @@
 Empower users to make healthier choices through personalized, safe, and accessible nutrition guidance.
 
 ## Objectives (SMART)
-- Launch MVP within 6 weeks with secure auth, BMI, and meal suggestions.
+- Launch MVP within 6 weeks with secure auth, BMI messaging, and allergy-aware meal suggestions.
 - Achieve <300ms average API latency for core endpoints.
 - Ensure 100% of recommended meals respect user allergies and BMI rules.
 
 ## Scope (MVP)
-- User registration/login with first/last name.
+- User registration/login with first/last name and secure bcrypt hashing.
 - BMI calculation with supportive messaging.
-- Allergy-aware meal recommendations using verified nutrition data.
+- Allergy-aware meal recommendations using verified nutrition data; enforce ≤700 kcal for BMI≥30.
 - User profile management (name, weight, allergies).
 
 ## Out of Scope (MVP)
@@ -31,4 +31,4 @@ Empower users to make healthier choices through personalized, safe, and accessib
 ## Success Metrics
 - Task completion rate for registration and first suggestion > 90%.
 - <1% error rate for BMI calculations.
-- Zero critical incidents related to allergy violations.
+- Zero critical incidents related to allergy violations; 100% secrets via env; HTTPS enforced in staging/prod.

@@ -1,37 +1,50 @@
 # Technical Documentation
 
 ## Authentication & Registration
-- Registration requires: first_name, last_name, email, password, height, weight.
-- Passwords hashed using Werkzeug.
+- Registration requires: first_name, last_name, email, password, height_cm, weight_kg.
+- Passwords hashed using bcrypt (legacy Werkzeug hashes still accepted).
 - Error handling: return JSON { error: string, details?: object } with proper HTTP status.
 - Password reset (future): configure SMTP via env; standard token flow.
 
-## Database Schema
-- users(id, first_name, last_name, email unique, password_hash, height, weight, BMI, allergies, preferences)
-- meals(id, name, type(enum breakfast|lunch|dinner), calories, ingredients, allergens)
-- meal_history(id, user_id fk, meal_id fk, date)
-- Proposed: user_progress(id, user_id fk, weight, recorded_at)
+## Database Schema (ERD Summary)
+- users(id, first_name, last_name, email unique, password_hash, height_cm, weight_kg, BMI, allergies, preferences, created_at, updated_at)
+- allergies(id, name)
+- user_allergies(id, user_id fk, allergy_id fk)
+- preferences(id, user_id fk, key, value)
+- user_progress(id, user_id fk, weight_kg, measured_at)
+- meals(id, name, type(enum breakfast|lunch|dinner), calories, ingredients json, allergens json)
+- meal_history(id, user_id fk, meal_id fk, date_consumed)
 
-## AI Meal Suggestion
+## Meal Recommendation & Validation
 - Excludes meals with user allergens (ingredients/allergens match, case-insensitive).
 - If BMI ≥ 30, cap single-meal recommendations at ≤ 700 kcal.
 - Scores meals by proximity to target calories based on BMI; boosts for user preferences.
 - Data source: USDA FoodData Central (optional key via USDA_API_KEY) or vetted internal seed.
+ - Endpoint returns up to exactly 3 per meal type when possible; flags `uncertain_allergens` when allergens are incomplete.
 
-## API Responses
+## API Specifications
 - Success: 2xx with JSON payload.
 - Errors: 4xx/5xx with { error: string, details?: object }.
-- /api/meals (POST): accepts { type?, max_calories?, specific_allergies? }.
+- POST /api/register: {email, password, first_name, last_name, height_cm, weight_kg} → stores BMI and returns profile including names and bmi.
+- POST /api/login: {email, password} → returns profile including first_name, last_name, full_name, bmi.
+- POST /api/bmi: {height_cm, weight_kg} → { bmi, eligibility, message } with validation and ranges.
+- GET /api/bmi/user/<id>: returns user BMI and message.
+- GET /api/meals?user_id=<id>[&type=&max_calories=]: returns up to 3 per meal type, enforces ≤700 kcal for BMI≥30; flags uncertainty.
+- GET /api/meals/external: fetches from USDA (requires NUTRITION_API_KEY).
+- POST /api/meals/history, GET /api/meals/history/<id>: manage meal history.
 - /api/profile (GET/PUT): fetch/update user fields.
 
-## Ethical AI & Privacy
+## Security & Privacy
 - Avoid harmful suggestions; respect allergies and medical constraints.
 - Anonymize analytics; store only necessary PII.
 - Provide opt-out for data collection; document retention policies.
+- All secrets loaded from environment: DATABASE_URL, SECRET_KEY, NUTRITION_API, NUTRITION_API_KEY, SMTP_*. Use HTTPS in production.
+- Password hashing with bcrypt (configurable rounds), JWT secret via env for tokens if enabled.
 
 ## Validation Rules
 - Height/weight must be positive numbers; prevent divide-by-zero in BMI.
 - For users with BMI ≥ 30, recommended meal calories ≤ 700 kcal.
+ - Allergies stored normalized (lowercase); uncertain allergens flagged and deprioritized.
 
 # Technical Documentation
 

@@ -49,3 +49,22 @@
 - Prepare for Sprint 1 review.
 **Blockers:**
 - None.
+
+### Day 6
+**What I did yesterday:**
+- Completed initial end-to-end flow (register → login → BMI → meals).
+- Connected to USDA API in a stubbed mode and documented env vars.
+**What I'll do today:**
+- Stabilize tests and fix flaky BMI message assertions.
+- Prepare Sprint 1 demo and retrospective notes.
+**Blockers:**
+- None.
+
+### Day 7
+**What I did yesterday:**
+- Finalized bug fixes for registration validation and meal filters.
+- Wrote draft technical documentation and QA checklist.
+**What I'll do today:**
+- Sprint 1 review and planning Sprint 2.
+**Blockers:**
+- None.

@@ -16,10 +16,12 @@
 - Updated docs in repo.
 
 ## Timeline
-- Week 1: Backend endpoints and DB migration.
-- Week 2: Frontend integration and testing.
+- Duration: 2 weeks
+- Week 1: Backend endpoints, BMI messages, DB migration, unit tests.
+- Week 2: Frontend integration (greeting, allergy notes), integration tests, docs.
 
 ## Definition of Done
 - All acceptance criteria pass.
 - Linter/tests pass.
 - Docs updated.
+ - Security review: env-only secrets, bcrypt hashing verified, HTTPS note in README.
