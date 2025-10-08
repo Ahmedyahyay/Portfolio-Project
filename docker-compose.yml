@@ -11,7 +11,7 @@ services:
     volumes:
       - backend_data:/data
     ports:
-      - "8000:8000"
+      - "5000:5000"  # غير المنفذ الخارجي إلى 5000
     restart: unless-stopped
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8000/" ]
