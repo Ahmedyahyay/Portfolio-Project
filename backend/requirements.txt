@@ -4,3 +4,4 @@ psycopg2-binary
 Flask-Migrate
 Flask-Testing
 python-dotenv
+Flask-CORS

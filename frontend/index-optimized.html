@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Nutrition Assistant - Optimized</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/src/assets/favicon.svg">
+    
+    <!-- Preload critical CSS -->
+    <link rel="preload" href="/src/index.css" as="style">
+    <link rel="stylesheet" href="/src/index.css">
+    
+    <!-- Preconnect to external domains (load fonts asynchronously) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Load fonts asynchronously to prevent blocking -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"></noscript>
+    
+    <!-- Meta Tags -->
+    <meta name="description" content="Personalized nutrition assistant for adults with BMI ≥30.">
+    <meta name="theme-color" content="#008080">
+</head>
+<body>
+    <!-- Skip Navigation Link -->
+    <a href="#main-content" class="sr-only">Skip to main content</a>
+    
+    <!-- Navigation Header -->
+    <header id="header" class="header">
+        <nav class="navbar">
+            <div class="container">
+                <div class="navbar-content flex justify-between items-center">
+                    <!-- Logo & Brand -->
+                    <div class="navbar-brand">
+                        <a href="/" class="brand-link flex items-center">
+                            <div class="brand-icon">
+                                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                                    <circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="2"/>
+                                    <path d="M16 8v8l4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <span class="brand-text">Nutrition Assistant</span>
+                        </a>
+                    </div>
+                    
+                    <!-- Desktop Navigation -->
+                    <div class="navbar-menu hidden md:flex">
+                        <a href="#home" class="nav-link">Home</a>
+                        <a href="#profile" class="nav-link">Profile</a>
+                        <a href="#meals" class="nav-link">Meal History</a>
+                    </div>
+                    
+                    <!-- User Actions -->
+                    <div class="navbar-actions flex items-center gap-4">
+                        <div id="user-menu" class="user-menu hidden">
+                            <span id="user-name" class="user-name text-small"></span>
+                            <button id="logout-btn" class="btn btn-secondary btn-small">Logout</button>
+                        </div>
+                        <div id="auth-menu" class="auth-menu flex gap-4">
+                            <button id="login-btn" class="btn btn-secondary btn-small">Login</button>
+                            <button id="register-btn" class="btn btn-primary btn-small">Get Started</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" class="main-content">
+        <!-- Hero Section -->
+        <section id="hero-section" class="hero">
+            <div class="hero-background"></div>
+            <div class="container">
+                <div class="hero-content">
+                    <h1 class="hero-title">Your Path to Healthier Living</h1>
+                    <p class="hero-subtitle">Personalized nutrition guidance for sustainable weight management.</p>
+                    <div class="hero-actions flex justify-center gap-6">
+                        <button id="hero-cta" class="btn btn-primary btn-large">Start Your Journey</button>
+                        <button id="learn-more" class="btn btn-secondary btn-large">Learn More</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dynamic Content Container -->
+        <div id="app-container" class="app-container">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="section">
+                <div class="container">
+                    <div class="dashboard-header text-center">
+                        <h2>Welcome to Your Nutrition Dashboard</h2>
+                        <p class="text-large text-muted">Track your progress and discover healthy meals</p>
+                    </div>
+                    
+                    <div class="dashboard-grid grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- BMI Status Card -->
+                        <div class="card dashboard-card">
+                            <div class="card-icon">
+                                <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                                    <circle cx="24" cy="24" r="20" stroke="var(--primary-color)" stroke-width="3"/>
+                                </svg>
+                            </div>
+                            <h3>BMI Status</h3>
+                            <p id="bmi-display" class="text-large font-semibold">Calculate BMI</p>
+                            <button id="calculate-bmi" class="btn btn-primary btn-small">Calculate BMI</button>
+                        </div>
+                        
+                        <!-- Profile Card -->
+                        <div class="card dashboard-card">
+                            <div class="card-icon">
+                                <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                                    <circle cx="24" cy="16" r="8" stroke="var(--primary-color)" stroke-width="3"/>
+                                </svg>
+                            </div>
+                            <h3>Your Profile</h3>
+                            <p class="text-muted">Manage your health information</p>
+                            <button id="manage-profile" class="btn btn-primary">Manage Profile</button>
+                        </div>
+                        
+                        <!-- Meal History Card -->
+                        <div class="card dashboard-card">
+                            <div class="card-icon">
+                                <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                                    <rect x="8" y="12" width="32" height="28" rx="4" stroke="var(--primary-color)" stroke-width="3"/>
+                                </svg>
+                            </div>
+                            <h3>Meal History</h3>
+                            <p class="text-muted">View your nutrition journey</p>
+                            <button id="view-history" class="btn btn-primary">View History</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Quick BMI Calculator -->
+            <section id="bmi-calculator" class="section hidden">
+                <div class="container container-sm">
+                    <div class="card card-elevated">
+                        <h3>BMI Calculator</h3>
+                        <form id="bmi-form">
+                            <div class="form-group">
+                                <label for="height-input" class="form-label">Height (cm)</label>
+                                <input type="number" id="height-input" class="form-input" required min="100" max="250">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="weight-input" class="form-label">Weight (kg)</label>
+                                <input type="number" id="weight-input" class="form-input" required min="40" max="300">
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">Calculate BMI</button>
+                            
+                            <div id="bmi-result" class="mt-4 text-center hidden">
+                                <div class="bmi-display">
+                                    <h4>Your BMI: <span id="bmi-value"></span></h4>
+                                    <div id="bmi-status-display" class="mt-2"></div>
+                                </div>
+                            </div>
+                        </form>
+                        
+                        <div class="form-footer text-center mt-4">
+                            <button id="back-to-dashboard" class="btn btn-secondary">Back to Dashboard</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content text-center">
+                <p class="text-small text-muted">© 2025 Personal Nutrition Assistant</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Notification Container -->
+    <div id="notifications" class="notifications-container"></div>
+
+    <!-- Optimized JavaScript Loading -->
+    <script>
+        // Simple notification system
+        function showNotification(message, type = 'info') {
+            const container = document.getElementById('notifications');
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.textContent = message;
+            container.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 5000);
+        }
+        
+        // Simple page navigation
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('section').forEach(section => {
+                section.classList.add('hidden');
+            });
+            
+            // Show target section
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.remove('hidden');
+            }
+        }
+        
+        // BMI Calculator
+        function calculateBMI(height, weight) {
+            const heightInMeters = height / 100;
+            const bmi = weight / (heightInMeters * heightInMeters);
+            return Math.round(bmi * 100) / 100;
+        }
+        
+        function getBMIStatus(bmi) {
+            if (bmi >= 30) {
+                return { text: 'Eligible for Program', class: 'bmi-status--eligible', eligible: true };
+            } else if (bmi >= 25) {
+                return { text: 'Overweight', class: 'bmi-status--overweight', eligible: false };
+            } else if (bmi >= 18.5) {
+                return { text: 'Normal Weight', class: 'bmi-status--normal', eligible: false };
+            } else {
+                return { text: 'Underweight', class: 'bmi-status--underweight', eligible: false };
+            }
+        }
+        
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Optimized Personal Nutrition Assistant loaded');
+            
+            // Dashboard interactions
+            document.getElementById('calculate-bmi')?.addEventListener('click', () => {
+                showSection('bmi-calculator');
+            });
+            
+            document.getElementById('back-to-dashboard')?.addEventListener('click', () => {
+                showSection('dashboard');
+            });
+            
+            // BMI form submission
+            document.getElementById('bmi-form')?.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const height = parseFloat(document.getElementById('height-input').value);
+                const weight = parseFloat(document.getElementById('weight-input').value);
+                
+                if (height && weight) {
+                    try {
+                        // Test API call
+                        const response = await fetch('http://localhost:5000/api/bmi', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ height, weight })
+                        });
+                        
+                        const data = await response.json();
+                        const bmi = data.BMI;
+                        const status = getBMIStatus(bmi);
+                        
+                        // Display results
+                        document.getElementById('bmi-value').textContent = bmi;
+                        document.getElementById('bmi-result').classList.remove('hidden');
+                        
+                        const statusDisplay = document.getElementById('bmi-status-display');
+                        statusDisplay.innerHTML = `<span class="${status.class}">${status.text}</span>`;
+                        
+                        if (status.eligible) {
+                            showNotification('Great! You are eligible for our nutrition program.', 'success');
+                        } else {
+                            showNotification('BMI calculated successfully.', 'info');
+                        }
+                        
+                    } catch (error) {
+                        showNotification('Unable to calculate BMI. Please try again.', 'error');
+                        console.error('BMI calculation error:', error);
+                    }
+                }
+            });
+            
+            // Hero CTA
+            document.getElementById('hero-cta')?.addEventListener('click', () => {
+                showSection('bmi-calculator');
+            });
+            
+            console.log('✅ Optimized app initialized successfully');
+        });
+    </script>
+    
+    <!-- Load additional JavaScript modules asynchronously -->
+    <script>
+        // Load full app modules asynchronously after page is ready
+        setTimeout(() => {
+            const modules = [
+                '/src/utils/api.js',
+                '/src/utils/auth.js'
+            ];
+            
+            modules.forEach(src => {
+                const script = document.createElement('script');
+                script.src = src;
+                script.async = true;
+                document.head.appendChild(script);
+            });
+        }, 100);
+    </script>
+</body>
+</html>

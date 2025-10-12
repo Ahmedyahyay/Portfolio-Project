@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Loading - Personal Nutrition Assistant</title>
+    <link rel="stylesheet" href="/src/index.css">
+</head>
+<body>
+    <div style="max-width: 800px; margin: 2rem auto; padding: 2rem;">
+        <h1>🔍 JavaScript Loading Debug</h1>
+        <p>Testing JavaScript files individually to identify loading issues.</p>
+        
+        <div id="loading-status">
+            <div class="card">
+                <h3>Loading Progress</h3>
+                <div id="progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const progressDiv = document.getElementById('progress');
+        let loadedCount = 0;
+        
+        function updateProgress(message, success = true) {
+            const status = success ? '✅' : '❌';
+            progressDiv.innerHTML += `${status} ${message}<br>`;
+            console.log(status, message);
+        }
+        
+        function loadScript(src, name) {
+            return new Promise((resolve, reject) => {
+                updateProgress(`Loading ${name}...`, true);
+                
+                const script = document.createElement('script');
+                script.src = src;
+                
+                script.onload = () => {
+                    updateProgress(`✓ ${name} loaded successfully`, true);
+                    resolve();
+                };
+                
+                script.onerror = (error) => {
+                    updateProgress(`✗ ${name} failed to load: ${error.message}`, false);
+                    reject(error);
+                };
+                
+                // Set timeout for slow loading
+                const timeout = setTimeout(() => {
+                    updateProgress(`⚠️ ${name} taking too long (>5s)`, false);
+                }, 5000);
+                
+                script.onload = () => {
+                    clearTimeout(timeout);
+                    updateProgress(`✓ ${name} loaded successfully`, true);
+                    resolve();
+                };
+                
+                document.head.appendChild(script);
+            });
+        }
+        
+        async function testJavaScriptLoading() {
+            const files = [
+                { src: '/src/utils/api.js', name: 'API Client' },
+                { src: '/src/utils/auth.js', name: 'Auth Manager' },
+                { src: '/src/components/notification.js', name: 'Notifications' },
+                { src: '/src/components/navbar.js', name: 'Navbar' },
+                { src: '/src/pages/auth.js', name: 'Auth Page' },
+                { src: '/src/pages/profile.js', name: 'Profile Page' },
+                { src: '/src/pages/mealHistory.js', name: 'Meal History' },
+                { src: '/src/app.js', name: 'Main App' }
+            ];
+            
+            updateProgress('🚀 Starting JavaScript loading test...', true);
+            
+            for (const file of files) {
+                try {
+                    await loadScript(file.src, file.name);
+                    
+                    // Add delay to see if any script causes hanging
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                    
+                } catch (error) {
+                    updateProgress(`Failed to load ${file.name}: ${error.message}`, false);
+                    break;
+                }
+            }
+            
+            updateProgress('🏁 JavaScript loading test completed!', true);
+            
+            // Test if API client is available
+            if (window.apiClient) {
+                updateProgress('✅ API Client instance found', true);
+                updateProgress(`📡 API Base URL: ${window.apiClient.baseURL}`, true);
+            } else {
+                updateProgress('❌ API Client instance not found', false);
+            }
+        }
+        
+        // Start the test
+        document.addEventListener('DOMContentLoaded', testJavaScriptLoading);
+    </script>
+</body>
+</html>

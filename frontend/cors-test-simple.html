@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CORS Test - Personal Nutrition Assistant</title>
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .header h1 {
+            color: #008080;
+            margin-bottom: 0.5rem;
+        }
+        
+        .test-section {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+        
+        .test-button {
+            background: #008080;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            margin-right: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .test-button:hover {
+            background: #006666;
+        }
+        
+        .test-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .result {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+        }
+        
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        
+        .error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        
+        .info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔧 CORS Configuration Test</h1>
+            <p>Testing cross-origin requests to Flask backend</p>
+            <p><strong>Frontend:</strong> http://localhost:3000 | <strong>Backend:</strong> http://localhost:5000</p>
+        </div>
+
+        <div class="test-section">
+            <h3>📊 BMI Calculation Test</h3>
+            <p>Test POST request to /api/bmi endpoint</p>
+            <button class="test-button" onclick="testBMI()">Test BMI Endpoint</button>
+            <div id="bmi-result"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>👤 User Registration Test</h3>
+            <p>Test POST request to /api/register endpoint</p>
+            <button class="test-button" onclick="testRegister()">Test Registration</button>
+            <div id="register-result"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>🔐 User Login Test</h3>
+            <p>Test POST request to /api/login endpoint</p>
+            <button class="test-button" onclick="testLogin()">Test Login</button>
+            <div id="login-result"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>🚀 Run All Tests</h3>
+            <p>Execute all CORS tests sequentially</p>
+            <button class="test-button" onclick="runAllTests()">Run All Tests</button>
+            <button class="test-button" onclick="clearResults()">Clear Results</button>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:5000';
+
+        function displayResult(elementId, success, message, data = null) {
+            const element = document.getElementById(elementId);
+            const className = success ? 'success' : 'error';
+            const icon = success ? '✅' : '❌';
+            
+            let content = `${icon} ${message}`;
+            if (data) {
+                content += `\n\nResponse: ${JSON.stringify(data, null, 2)}`;
+            }
+            
+            element.innerHTML = `<div class="result ${className}">${content}</div>`;
+        }
+
+        function displayInfo(elementId, message) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = `<div class="result info">ℹ️ ${message}</div>`;
+        }
+
+        async function testBMI() {
+            displayInfo('bmi-result', 'Testing BMI endpoint...');
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/bmi`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    mode: 'cors',
+                    body: JSON.stringify({
+                        height: 175,
+                        weight: 80
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    displayResult('bmi-result', true, 
+                        `BMI calculation successful! Status: ${response.status}`, data);
+                } else {
+                    displayResult('bmi-result', false, 
+                        `BMI calculation failed. Status: ${response.status}`, data);
+                }
+                
+            } catch (error) {
+                displayResult('bmi-result', false, 
+                    `Network error during BMI test: ${error.message}`);
+            }
+        }
+
+        async function testRegister() {
+            displayInfo('register-result', 'Testing registration endpoint...');
+            
+            try {
+                // Generate random email to avoid conflicts
+                const randomEmail = `test${Date.now()}@example.com`;
+                
+                const response = await fetch(`${API_BASE}/api/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    mode: 'cors',
+                    body: JSON.stringify({
+                        email: randomEmail,
+                        password: 'testpassword123',
+                        height: 175,
+                        weight: 95  // BMI >= 30 requirement
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    displayResult('register-result', true, 
+                        `Registration successful! Status: ${response.status}`, data);
+                } else {
+                    displayResult('register-result', false, 
+                        `Registration failed. Status: ${response.status}`, data);
+                }
+                
+            } catch (error) {
+                displayResult('register-result', false, 
+                    `Network error during registration test: ${error.message}`);
+            }
+        }
+
+        async function testLogin() {
+            displayInfo('login-result', 'Testing login endpoint...');
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    mode: 'cors',
+                    body: JSON.stringify({
+                        email: 'nonexistent@example.com',
+                        password: 'wrongpassword'
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (response.status === 401) {
+                    displayResult('login-result', true, 
+                        `Login test successful (expected 401 for invalid credentials)! Status: ${response.status}`, data);
+                } else if (response.ok) {
+                    displayResult('login-result', true, 
+                        `Login successful! Status: ${response.status}`, data);
+                } else {
+                    displayResult('login-result', false, 
+                        `Login test failed. Status: ${response.status}`, data);
+                }
+                
+            } catch (error) {
+                displayResult('login-result', false, 
+                    `Network error during login test: ${error.message}`);
+            }
+        }
+
+        async function runAllTests() {
+            console.log('🚀 Running all CORS tests...');
+            await testBMI();
+            await new Promise(resolve => setTimeout(resolve, 1000)); // 1 second delay
+            await testRegister();
+            await new Promise(resolve => setTimeout(resolve, 1000)); // 1 second delay
+            await testLogin();
+            console.log('✅ All tests completed!');
+        }
+
+        function clearResults() {
+            document.getElementById('bmi-result').innerHTML = '';
+            document.getElementById('register-result').innerHTML = '';
+            document.getElementById('login-result').innerHTML = '';
+        }
+
+        // Auto-run tests on page load
+        window.addEventListener('load', () => {
+            console.log('Page loaded. CORS test interface ready!');
+            console.log('Frontend: http://localhost:3000');
+            console.log('Backend: http://localhost:5000');
+        });
+    </script>
+</body>
+</html>

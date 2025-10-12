@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Test - Personal Nutrition Assistant</title>
+    <link rel="stylesheet" href="/src/index.css">
+</head>
+<body>
+    <div style="max-width: 600px; margin: 2rem auto; padding: 2rem;">
+        <h1>🚀 Simple Test Page</h1>
+        <p>This page loads without JavaScript to test CSS and basic functionality.</p>
+        
+        <div class="card" style="margin: 2rem 0;">
+            <h3>Test API Connection</h3>
+            <button id="test-btn" class="btn btn-primary">Test Backend</button>
+            <div id="result" style="margin-top: 1rem;"></div>
+        </div>
+        
+        <div class="card">
+            <h3>Navigation Test</h3>
+            <a href="/" class="btn btn-secondary">Go to Main App</a>
+            <a href="/debug.html" class="btn btn-secondary">Debug Page</a>
+            <a href="/cors-test-simple.html" class="btn btn-secondary">CORS Test</a>
+        </div>
+    </div>
+
+    <script>
+        console.log('🚀 Simple test page loaded');
+        
+        document.getElementById('test-btn').addEventListener('click', async () => {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '⏳ Testing...';
+            
+            try {
+                const response = await fetch('http://localhost:5000/api/bmi', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ height: 175, weight: 80 })
+                });
+                
+                const data = await response.json();
+                resultDiv.innerHTML = `✅ Success: BMI = ${data.BMI}`;
+                resultDiv.style.color = 'green';
+            } catch (error) {
+                resultDiv.innerHTML = `❌ Error: ${error.message}`;
+                resultDiv.style.color = 'red';
+            }
+        });
+    </script>
+</body>
+</html>

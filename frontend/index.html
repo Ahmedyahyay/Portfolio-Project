@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Nutrition Assistant - Your Path to Healthier Living</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/src/assets/favicon.svg">
+    
+    <!-- Google Fonts - Inter for clean, modern typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Design System CSS -->
+    <link rel="stylesheet" href="/src/index.css">
+    
+    <!-- Meta Tags for SEO -->
+    <meta name="description" content="Personalized nutrition assistant for adults with BMI ≥30. Get secure, medically-guided meal recommendations tailored to your health goals.">
+    <meta name="keywords" content="nutrition, health, BMI, weight loss, meal planning, diet, wellness">
+    <meta name="author" content="Personal Nutrition Assistant">
+    
+    <!-- Open Graph for social sharing -->
+    <meta property="og:title" content="Personal Nutrition Assistant">
+    <meta property="og:description" content="Your trusted partner for healthier eating with personalized meal recommendations">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://nutrition-assistant.com">
+    
+    <!-- Accessibility -->
+    <meta name="theme-color" content="#008080">
+    <meta name="color-scheme" content="light">
+</head>
+<body>
+    <!-- Skip Navigation Link for Accessibility -->
+    <a href="#main-content" class="sr-only">Skip to main content</a>
+    
+    <!-- Navigation Header -->
+    <header id="header" class="header">
+        <nav class="navbar">
+            <div class="container">
+                <div class="navbar-content flex justify-between items-center">
+                    <!-- Logo & Brand -->
+                    <div class="navbar-brand">
+                        <a href="/" class="brand-link flex items-center">
+                            <div class="brand-icon">
+                                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                                    <circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="2"/>
+                                    <path d="M16 8v8l4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <span class="brand-text">Nutrition Assistant</span>
+                        </a>
+                    </div>
+                    
+                    <!-- Desktop Navigation -->
+                    <div class="navbar-menu hidden md:flex">
+                        <a href="#home" class="nav-link">Home</a>
+                        <a href="#profile" class="nav-link">Profile</a>
+                        <a href="#meals" class="nav-link">Meal History</a>
+                        <a href="#recommendations" class="nav-link">Recommendations</a>
+                    </div>
+                    
+                    <!-- User Actions -->
+                    <div class="navbar-actions flex items-center gap-4">
+                        <div id="user-menu" class="user-menu hidden">
+                            <span id="user-name" class="user-name text-small"></span>
+                            <button id="logout-btn" class="btn btn-secondary btn-small">Logout</button>
+                        </div>
+                        <div id="auth-menu" class="auth-menu flex gap-4">
+                            <button id="login-btn" class="btn btn-secondary btn-small">Login</button>
+                            <button id="register-btn" class="btn btn-primary btn-small">Get Started</button>
+                        </div>
+                        
+                        <!-- Mobile Menu Toggle -->
+                        <button id="mobile-menu-btn" class="mobile-menu-btn md:hidden">
+                            <span class="sr-only">Toggle menu</span>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Mobile Menu -->
+                <div id="mobile-menu" class="mobile-menu hidden">
+                    <div class="mobile-menu-content">
+                        <a href="#home" class="mobile-nav-link">Home</a>
+                        <a href="#profile" class="mobile-nav-link">Profile</a>
+                        <a href="#meals" class="mobile-nav-link">Meal History</a>
+                        <a href="#recommendations" class="mobile-nav-link">Recommendations</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content Area -->
+    <main id="main-content" class="main-content">
+        
+        <!-- Hero Section -->
+        <section id="hero-section" class="hero">
+            <div class="hero-background"></div>
+            <div class="container">
+                <div class="hero-content">
+                    <h1 class="hero-title">Your Path to Healthier Living</h1>
+                    <p class="hero-subtitle">Personalized nutrition guidance for sustainable weight management. Join thousands who have transformed their relationship with food.</p>
+                    <div class="hero-actions flex justify-center gap-6">
+                        <button id="hero-cta" class="btn btn-primary btn-large">Start Your Journey</button>
+                        <button id="learn-more" class="btn btn-secondary btn-large">Learn More</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dynamic Content Container -->
+        <div id="app-container" class="app-container">
+            
+            <!-- Welcome/Dashboard Section -->
+            <section id="dashboard" class="section">
+                <div class="container">
+                    <div class="dashboard-header text-center">
+                        <h2>Welcome to Your Nutrition Dashboard</h2>
+                        <p class="text-large text-muted">Track your progress, manage your profile, and discover new healthy meals</p>
+                    </div>
+                    
+                    <div class="dashboard-grid grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- BMI Status Card -->
+                        <div class="card dashboard-card">
+                            <div class="card-icon">
+                                <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                                    <circle cx="24" cy="24" r="20" stroke="var(--primary-color)" stroke-width="3"/>
+                                    <path d="M24 12v12l8 8" stroke="var(--primary-color)" stroke-width="3" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <h3>BMI Status</h3>
+                            <p id="bmi-display" class="text-large font-semibold">--</p>
+                            <div id="bmi-status" class="bmi-status bmi-status--eligible hidden">
+                                <span>✓ Eligible for Program</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Profile Management Card -->
+                        <div class="card dashboard-card">
+                            <div class="card-icon">
+                                <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                                    <circle cx="24" cy="16" r="8" stroke="var(--primary-color)" stroke-width="3"/>
+                                    <path d="M8 40c0-8.837 7.163-16 16-16s16 7.163 16 16" stroke="var(--primary-color)" stroke-width="3"/>
+                                </svg>
+                            </div>
+                            <h3>Your Profile</h3>
+                            <p class="text-muted">Manage your health information, allergies, and preferences</p>
+                            <button id="manage-profile" class="btn btn-primary">Manage Profile</button>
+                        </div>
+                        
+                        <!-- Meal History Card -->
+                        <div class="card dashboard-card">
+                            <div class="card-icon">
+                                <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                                    <rect x="8" y="12" width="32" height="28" rx="4" stroke="var(--primary-color)" stroke-width="3"/>
+                                    <path d="M16 20h16M16 28h12" stroke="var(--primary-color)" stroke-width="3" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <h3>Meal History</h3>
+                            <p class="text-muted">View your nutrition journey and track your progress</p>
+                            <button id="view-history" class="btn btn-primary">View History</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Auth Forms Container -->
+            <section id="auth-container" class="section hidden">
+                <div class="container container-sm">
+                    <!-- Login Form -->
+                    <div id="login-form" class="card card-elevated">
+                        <div class="form-header text-center">
+                            <h2>Welcome Back</h2>
+                            <p class="text-muted">Sign in to continue your nutrition journey</p>
+                        </div>
+                        
+                        <form id="login-form-element" class="auth-form">
+                            <div class="form-group">
+                                <label for="login-email" class="form-label">Email Address</label>
+                                <input type="email" id="login-email" name="email" class="form-input" required>
+                                <div class="form-error hidden" id="login-email-error"></div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="login-password" class="form-label">Password</label>
+                                <input type="password" id="login-password" name="password" class="form-input" required>
+                                <div class="form-error hidden" id="login-password-error"></div>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary btn-large" style="width: 100%;">
+                                <span id="login-btn-text">Sign In</span>
+                                <div id="login-loading" class="loading-spinner hidden"></div>
+                            </button>
+                            
+                            <div class="form-footer text-center">
+                                <button type="button" id="forgot-password-link" class="text-link">Forgot your password?</button>
+                                <p class="text-small text-muted">
+                                    Don't have an account? 
+                                    <button type="button" id="show-register" class="text-link">Create one here</button>
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <!-- Registration Form -->
+                    <div id="register-form" class="card card-elevated hidden">
+                        <div class="form-header text-center">
+                            <h2>Start Your Health Journey</h2>
+                            <p class="text-muted">Create your account to get personalized nutrition guidance</p>
+                        </div>
+                        
+                        <form id="register-form-element" class="auth-form">
+                            <div class="form-group">
+                                <label for="register-email" class="form-label">Email Address</label>
+                                <input type="email" id="register-email" name="email" class="form-input" required>
+                                <div class="form-error hidden" id="register-email-error"></div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="register-password" class="form-label">Password</label>
+                                <input type="password" id="register-password" name="password" class="form-input" required minlength="8">
+                                <div class="form-error hidden" id="register-password-error"></div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="register-height" class="form-label">Height (cm)</label>
+                                <input type="number" id="register-height" name="height" class="form-input" required min="100" max="250">
+                                <div class="form-error hidden" id="register-height-error"></div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="register-weight" class="form-label">Weight (kg)</label>
+                                <input type="number" id="register-weight" name="weight" class="form-input" required min="40" max="300">
+                                <div class="form-error hidden" id="register-weight-error"></div>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary btn-large" style="width: 100%;">
+                                <span id="register-btn-text">Create Account</span>
+                                <div id="register-loading" class="loading-spinner hidden"></div>
+                            </button>
+                            
+                            <div class="form-footer text-center">
+                                <p class="text-small text-muted">
+                                    Already have an account? 
+                                    <button type="button" id="show-login" class="text-link">Sign in here</button>
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Profile Management Section -->
+            <section id="profile-section" class="section hidden">
+                <div class="container container-md">
+                    <div class="section-header text-center">
+                        <h2>Manage Your Profile</h2>
+                        <p class="text-large text-muted">Keep your health information up to date for better recommendations</p>
+                    </div>
+                    
+                    <div class="profile-grid grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Basic Information -->
+                        <div class="card">
+                            <h3>Basic Information</h3>
+                            <form id="profile-basic-form">
+                                <div class="form-group">
+                                    <label for="profile-height" class="form-label">Height (cm)</label>
+                                    <input type="number" id="profile-height" class="form-input" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="profile-weight" class="form-label">Weight (kg)</label>
+                                    <input type="number" id="profile-weight" class="form-input" required>
+                                </div>
+                                
+                                <div id="profile-bmi-display" class="bmi-display"></div>
+                                
+                                <button type="submit" class="btn btn-primary">Update Information</button>
+                            </form>
+                        </div>
+                        
+                        <!-- Dietary Preferences -->
+                        <div class="card">
+                            <h3>Dietary Preferences & Allergies</h3>
+                            <form id="profile-preferences-form">
+                                <div class="form-group">
+                                    <label for="profile-allergies" class="form-label">Allergies</label>
+                                    <input type="text" id="profile-allergies" class="form-input" placeholder="e.g., peanuts, shellfish, dairy">
+                                    <small class="text-small text-muted">Separate multiple allergies with commas</small>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="profile-preferences" class="form-label">Food Preferences</label>
+                                    <input type="text" id="profile-preferences" class="form-input" placeholder="e.g., vegetarian, low-sodium, gluten-free">
+                                    <small class="text-small text-muted">Separate multiple preferences with commas</small>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary">Save Preferences</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Meal History Section -->
+            <section id="meal-history-section" class="section hidden">
+                <div class="container">
+                    <div class="section-header flex justify-between items-center">
+                        <div>
+                            <h2>Your Meal History</h2>
+                            <p class="text-muted">Track your nutrition journey and see your progress over time</p>
+                        </div>
+                        <div class="history-filters">
+                            <select id="history-filter" class="form-select">
+                                <option value="all">All Meals</option>
+                                <option value="breakfast">Breakfast</option>
+                                <option value="lunch">Lunch</option>
+                                <option value="dinner">Dinner</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div id="meal-history-grid" class="meal-history-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Meal history cards will be dynamically inserted here -->
+                    </div>
+                    
+                    <div id="history-empty" class="empty-state text-center hidden">
+                        <div class="empty-icon">
+                            <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+                                <circle cx="32" cy="32" r="28" stroke="var(--border-color)" stroke-width="2"/>
+                                <path d="M32 20v12M32 44h.01" stroke="var(--text-muted-color)" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <h3>No meal history yet</h3>
+                        <p class="text-muted">Start tracking your meals to see your nutrition journey here</p>
+                    </div>
+                </div>
+            </section>
+            
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content text-center">
+                <p class="text-small text-muted">
+                    © 2025 Personal Nutrition Assistant. Supporting your health journey with trusted, personalized guidance.
+                </p>
+                <div class="footer-links">
+                    <a href="#privacy" class="footer-link">Privacy Policy</a>
+                    <a href="#terms" class="footer-link">Terms of Service</a>
+                    <a href="#contact" class="footer-link">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay hidden">
+        <div class="loading-spinner-large">
+            <div class="spinner"></div>
+            <p>Loading...</p>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notifications" class="notifications-container"></div>
+
+    <!-- JavaScript -->
+    <script src="/src/utils/api.js"></script>
+    <script src="/src/utils/auth.js"></script>
+    <script src="/src/components/notification.js"></script>
+    <script src="/src/components/navbar.js"></script>
+    <script src="/src/pages/auth.js"></script>
+    <script src="/src/pages/profile.js"></script>
+    <script src="/src/pages/mealHistory.js"></script>
+    <script src="/src/app.js"></script>
+</body>
+</html>

@@ -1,10 +1,20 @@
 from flask import Flask
-
+from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import os
 
 app = Flask(__name__)
+
+# CORS Configuration for frontend communication
+CORS(app, resources={
+    r"/api/*": {
+        "origins": ["http://localhost:8000", "http://127.0.0.1:8000", "http://localhost:3000", "http://127.0.0.1:3000"],
+        "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization"]
+    }
+})
+
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'sqlite:///nutrition.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 

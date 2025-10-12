@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CORS Test - Personal Nutrition Assistant</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-result {
+            margin: 15px 0;
+            padding: 15px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .loading {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        button {
+            background-color: #008080;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background-color: #006666;
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .json-output {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 CORS Configuration Test</h1>
+        <p>This page tests the CORS configuration between the frontend (port 8000) and backend (port 5000).</p>
+        
+        <div id="test-results"></div>
+        
+        <h2>Test API Endpoints</h2>
+        <button onclick="testBasicConnection()">Test Basic Connection</button>
+        <button onclick="testBMICalculation()">Test BMI Calculation</button>
+        <button onclick="testRegistration()">Test Registration (Mock)</button>
+        <button onclick="testLogin()">Test Login (Mock)</button>
+        <button onclick="runAllTests()">Run All Tests</button>
+        
+        <div id="output"></div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:5000';
+        let testCount = 0;
+
+        function addResult(message, type = 'loading') {
+            const resultsDiv = document.getElementById('test-results');
+            const resultDiv = document.createElement('div');
+            resultDiv.className = `test-result ${type}`;
+            resultDiv.innerHTML = `${++testCount}. ${message}`;
+            resultsDiv.appendChild(resultDiv);
+            
+            // Auto-scroll to bottom
+            resultDiv.scrollIntoView({ behavior: 'smooth' });
+            
+            return resultDiv;
+        }
+
+        function updateResult(resultDiv, message, type) {
+            resultDiv.className = `test-result ${type}`;
+            resultDiv.innerHTML = `${resultDiv.innerHTML.split('.')[0]}. ${message}`;
+        }
+
+        function displayJSON(data) {
+            const outputDiv = document.getElementById('output');
+            outputDiv.innerHTML = `<div class="json-output">${JSON.stringify(data, null, 2)}</div>`;
+        }
+
+        async function testBasicConnection() {
+            const resultDiv = addResult('Testing basic connection to Flask server...', 'loading');
+            
+            try {
+                const response = await fetch(`${API_BASE}/`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include'
+                });
+                
+                if (response.ok) {
+                    const text = await response.text();
+                    updateResult(resultDiv, `✅ Basic connection successful! Response: "${text}"`, 'success');
+                    displayJSON({ status: 'success', message: text, statusCode: response.status });
+                    return true;
+                } else {
+                    updateResult(resultDiv, `❌ Server responded with status: ${response.status}`, 'error');
+                    displayJSON({ status: 'error', statusCode: response.status });
+                    return false;
+                }
+            } catch (error) {
+                updateResult(resultDiv, `❌ Connection failed: ${error.message}`, 'error');
+                displayJSON({ status: 'error', error: error.message });
+                return false;
+            }
+        }
+
+        async function testBMICalculation() {
+            const resultDiv = addResult('Testing BMI calculation API...', 'loading');
+            
+            try {
+                const testData = {
+                    height: 170,
+                    weight: 85
+                };
+                
+                const response = await fetch(`${API_BASE}/api/bmi`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify(testData)
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    updateResult(resultDiv, `✅ BMI calculation successful! BMI: ${data.BMI}`, 'success');
+                    displayJSON({ status: 'success', data: data, request: testData });
+                    return true;
+                } else {
+                    updateResult(resultDiv, `❌ BMI calculation failed: ${data.error || 'Unknown error'}`, 'error');
+                    displayJSON({ status: 'error', data: data, request: testData });
+                    return false;
+                }
+            } catch (error) {
+                updateResult(resultDiv, `❌ BMI calculation request failed: ${error.message}`, 'error');
+                displayJSON({ status: 'error', error: error.message });
+                return false;
+            }
+        }
+
+        async function testRegistration() {
+            const resultDiv = addResult('Testing user registration API...', 'loading');
+            
+            try {
+                const testData = {
+                    email: 'test@example.com',
+                    password: 'testpassword123',
+                    height: 175,
+                    weight: 90
+                };
+                
+                const response = await fetch(`${API_BASE}/api/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify(testData)
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    updateResult(resultDiv, `✅ Registration API accessible! Message: ${data.message}`, 'success');
+                    displayJSON({ status: 'success', data: data, request: { ...testData, password: '[HIDDEN]' } });
+                    return true;
+                } else {
+                    // Expected behavior - user might already exist
+                    if (response.status === 409) {
+                        updateResult(resultDiv, `✅ Registration API working (user already exists)`, 'success');
+                    } else {
+                        updateResult(resultDiv, `⚠️ Registration failed: ${data.error || 'Unknown error'}`, 'error');
+                    }
+                    displayJSON({ status: 'info', data: data, request: { ...testData, password: '[HIDDEN]' } });
+                    return true;
+                }
+            } catch (error) {
+                updateResult(resultDiv, `❌ Registration request failed: ${error.message}`, 'error');
+                displayJSON({ status: 'error', error: error.message });
+                return false;
+            }
+        }
+
+        async function testLogin() {
+            const resultDiv = addResult('Testing user login API...', 'loading');
+            
+            try {
+                const testData = {
+                    email: 'test@example.com',
+                    password: 'wrongpassword'
+                };
+                
+                const response = await fetch(`${API_BASE}/api/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify(testData)
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    updateResult(resultDiv, `✅ Login API accessible! User logged in`, 'success');
+                    displayJSON({ status: 'success', data: data, request: { ...testData, password: '[HIDDEN]' } });
+                    return true;
+                } else {
+                    // Expected behavior - wrong credentials
+                    if (response.status === 401) {
+                        updateResult(resultDiv, `✅ Login API working (invalid credentials as expected)`, 'success');
+                    } else {
+                        updateResult(resultDiv, `⚠️ Login failed: ${data.error || 'Unknown error'}`, 'error');
+                    }
+                    displayJSON({ status: 'info', data: data, request: { ...testData, password: '[HIDDEN]' } });
+                    return true;
+                }
+            } catch (error) {
+                updateResult(resultDiv, `❌ Login request failed: ${error.message}`, 'error');
+                displayJSON({ status: 'error', error: error.message });
+                return false;
+            }
+        }
+
+        async function runAllTests() {
+            // Clear previous results
+            document.getElementById('test-results').innerHTML = '';
+            document.getElementById('output').innerHTML = '';
+            testCount = 0;
+            
+            addResult('🚀 Starting comprehensive CORS and API tests...', 'loading');
+            
+            // Disable all buttons during testing
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(btn => btn.disabled = true);
+            
+            try {
+                const results = [];
+                
+                results.push(await testBasicConnection());
+                await new Promise(resolve => setTimeout(resolve, 500)); // Small delay between tests
+                
+                results.push(await testBMICalculation());
+                await new Promise(resolve => setTimeout(resolve, 500));
+                
+                results.push(await testRegistration());
+                await new Promise(resolve => setTimeout(resolve, 500));
+                
+                results.push(await testLogin());
+                
+                // Summary
+                const successCount = results.filter(r => r).length;
+                const totalCount = results.length;
+                
+                if (successCount === totalCount) {
+                    addResult(`🎉 All tests passed! (${successCount}/${totalCount}) CORS is working correctly!`, 'success');
+                } else {
+                    addResult(`⚠️ Some tests failed (${successCount}/${totalCount}). Check individual results above.`, 'error');
+                }
+                
+            } finally {
+                // Re-enable buttons
+                buttons.forEach(btn => btn.disabled = false);
+            }
+        }
+
+        // Auto-run basic connection test on page load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                addResult('🔍 Auto-testing basic connection...', 'loading');
+                testBasicConnection();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
