@@ -3,48 +3,252 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personal Nutrition Assistant</title>
+    <title>NutriAssist Pro - Personal Nutrition Assistant</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Personal Nutrition Assistant</h1>
-            <p>Healthcare support for adults with BMI ≥ 30</p>
-        </header>
-
-        <div class="section">
-            <h2>User Registration</h2>
-            <div class="form-group">
-                <input type="email" id="regEmail" placeholder="Email" required>
-                <input type="password" id="regPassword" placeholder="Password" required>
-                <input type="number" id="regHeight" placeholder="Height (cm)" required>
-                <input type="number" id="regWeight" placeholder="Weight (kg)" required>
-                <button onclick="register()">Register</button>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-apple-alt"></i>
+                <span>NutriAssist Pro</span>
             </div>
-            <div id="regResult" class="result"></div>
-        </div>
-
-        <div class="section">
-            <h2>User Login</h2>
-            <div class="form-group">
-                <input type="email" id="loginEmail" placeholder="Email" required>
-                <input type="password" id="loginPassword" placeholder="Password" required>
-                <button onclick="login()">Login</button>
+            <div class="nav-menu">
+                <a href="#home" class="nav-link active">Home</a>
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#meals" class="nav-link">Meals</a>
+                <a href="#contact" class="nav-link">Contact</a>
             </div>
-            <div id="loginResult" class="result"></div>
-        </div>
-
-        <div class="section">
-            <h2>BMI Calculator</h2>
-            <div class="form-group">
-                <input type="number" id="bmiHeight" placeholder="Height (cm)" required>
-                <input type="number" id="bmiWeight" placeholder="Weight (kg)" required>
-                <button onclick="calculateBMI()">Calculate BMI</button>
+            <div class="nav-toggle">
+                <i class="fas fa-bars"></i>
             </div>
-            <div id="bmiResult" class="result"></div>
         </div>
-    </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Your Personal Nutrition Journey Starts Here</h1>
+                <p>Professional nutrition assistance for adults with BMI ≥ 30. Get personalized meal recommendations based on USDA nutrition database.</p>
+                <div class="hero-buttons">
+                    <button class="btn-primary" onclick="scrollToSection('auth')">Get Started</button>
+                    <button class="btn-secondary" onclick="scrollToSection('features')">Learn More</button>
+                </div>
+            </div>
+            <div class="hero-image">
+                <i class="fas fa-heartbeat"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2>Why Choose NutriAssist Pro?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-calculator"></i>
+                    <h3>BMI Calculator</h3>
+                    <p>Accurate BMI calculation with health categorization</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-utensils"></i>
+                    <h3>USDA Nutrition Data</h3>
+                    <p>Reliable meal data from US Department of Agriculture</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Secure Platform</h3>
+                    <p>Your health data is protected with enterprise-grade security</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Progress Tracking</h3>
+                    <p>Monitor your nutrition journey with detailed analytics</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Authentication & Tools Section -->
+    <section id="auth" class="auth-section">
+        <div class="container">
+            <div class="auth-tabs">
+                <button class="tab-btn active" onclick="switchTab('register')">Register</button>
+                <button class="tab-btn" onclick="switchTab('login')">Login</button>
+                <button class="tab-btn" onclick="switchTab('bmi')">BMI Calculator</button>
+                <button class="tab-btn" onclick="switchTab('meals')">Meal Search</button>
+            </div>
+
+            <!-- Register Tab -->
+            <div id="register-tab" class="tab-content active">
+                <div class="form-card">
+                    <h3><i class="fas fa-user-plus"></i> Create Your Account</h3>
+                    <form class="auth-form" onsubmit="register(event)">
+                        <div class="input-group">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="regEmail" placeholder="Email Address" required>
+                        </div>
+                        <div class="input-group">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="regPassword" placeholder="Password" required>
+                        </div>
+                        <div class="input-row">
+                            <div class="input-group">
+                                <i class="fas fa-ruler-vertical"></i>
+                                <input type="number" id="regHeight" placeholder="Height (cm)" required>
+                            </div>
+                            <div class="input-group">
+                                <i class="fas fa-weight"></i>
+                                <input type="number" id="regWeight" placeholder="Weight (kg)" required>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <i class="fas fa-allergies"></i>
+                            <input type="text" id="regAllergies" placeholder="Allergies (optional)">
+                        </div>
+                        <div class="input-group">
+                            <i class="fas fa-heart"></i>
+                            <input type="text" id="regPreferences" placeholder="Dietary Preferences (optional)">
+                        </div>
+                        <button type="submit" class="btn-primary full-width">
+                            <i class="fas fa-user-plus"></i> Register
+                        </button>
+                    </form>
+                    <div id="regResult" class="result"></div>
+                </div>
+            </div>
+
+            <!-- Login Tab -->
+            <div id="login-tab" class="tab-content">
+                <div class="form-card">
+                    <h3><i class="fas fa-sign-in-alt"></i> Welcome Back</h3>
+                    <form class="auth-form" onsubmit="login(event)">
+                        <div class="input-group">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="loginEmail" placeholder="Email Address" required>
+                        </div>
+                        <div class="input-group">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="loginPassword" placeholder="Password" required>
+                        </div>
+                        <button type="submit" class="btn-primary full-width">
+                            <i class="fas fa-sign-in-alt"></i> Login
+                        </button>
+                    </form>
+                    <div id="loginResult" class="result"></div>
+                </div>
+            </div>
+
+            <!-- BMI Calculator Tab -->
+            <div id="bmi-tab" class="tab-content">
+                <div class="form-card">
+                    <h3><i class="fas fa-calculator"></i> BMI Calculator</h3>
+                    <form class="auth-form" onsubmit="calculateBMI(event)">
+                        <div class="input-row">
+                            <div class="input-group">
+                                <i class="fas fa-ruler-vertical"></i>
+                                <input type="number" id="bmiHeight" placeholder="Height (cm)" required>
+                            </div>
+                            <div class="input-group">
+                                <i class="fas fa-weight"></i>
+                                <input type="number" id="bmiWeight" placeholder="Weight (kg)" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-primary full-width">
+                            <i class="fas fa-calculator"></i> Calculate BMI
+                        </button>
+                    </form>
+                    <div id="bmiResult" class="result"></div>
+                </div>
+            </div>
+
+            <!-- Meal Search Tab -->
+            <div id="meals-tab" class="tab-content">
+                <div class="form-card">
+                    <h3><i class="fas fa-search"></i> Search Meals</h3>
+                    <form class="auth-form" onsubmit="searchMeals(event)">
+                        <div class="input-group">
+                            <i class="fas fa-utensils"></i>
+                            <input type="text" id="mealQuery" placeholder="Search for meals..." required>
+                        </div>
+                        <div class="input-row">
+                            <select id="mealType" class="select-input">
+                                <option value="">All Meal Types</option>
+                                <option value="breakfast">Breakfast</option>
+                                <option value="lunch">Lunch</option>
+                                <option value="dinner">Dinner</option>
+                                <option value="snack">Snack</option>
+                            </select>
+                            <input type="number" id="maxCalories" placeholder="Max Calories" class="input-half">
+                        </div>
+                        <button type="submit" class="btn-primary full-width">
+                            <i class="fas fa-search"></i> Search Meals
+                        </button>
+                    </form>
+                    <div id="mealResults" class="result"></div>
+                    <div id="mealCards" class="meal-cards"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Nutrition Dashboard -->
+    <section id="dashboard" class="dashboard" style="display: none;">
+        <div class="container">
+            <h2>Your Nutrition Dashboard</h2>
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <h3>Daily Goals</h3>
+                    <div class="progress-circle">
+                        <span>75%</span>
+                    </div>
+                </div>
+                <div class="dashboard-card">
+                    <h3>Weekly Progress</h3>
+                    <div class="chart-placeholder">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                </div>
+                <div class="dashboard-card">
+                    <h3>Recent Meals</h3>
+                    <div id="recentMeals" class="meal-list"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>NutriAssist Pro</h4>
+                    <p>Professional nutrition assistance for a healthier lifestyle.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Features</h4>
+                    <ul>
+                        <li>BMI Calculation</li>
+                        <li>Meal Recommendations</li>
+                        <li>Progress Tracking</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>support@nutriassistpro.com</p>
+                    <p>+1 (555) 123-4567</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 NutriAssist Pro. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 
     <script src="app.js"></script>
 </body>
