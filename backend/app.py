@@ -1,35 +1,30 @@
 from flask import Flask
 from flask_cors import CORS
-from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from models import db
+from routes import register_blueprints
 import os
 
-app = Flask(__name__)
-
-# CORS Configuration for frontend communication
-CORS(app, resources={
-    r"/api/*": {
-        "origins": ["http://localhost:8000", "http://127.0.0.1:8000", "http://localhost:3000", "http://127.0.0.1:3000"],
-        "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-        "allow_headers": ["Content-Type", "Authorization"]
-    }
-})
-
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'sqlite:///nutrition.db')
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-from models import db
-db.init_app(app)
-migrate = Migrate(app, db)
-
-# Import routes
-from routes import register_blueprints
-register_blueprints(app)
-
-
-@app.route('/')
-def index():
-    return "Personal Nutrition Assistant API is running."
+def create_app():
+    app = Flask(__name__)
+    
+    # Configuration
+    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev-secret-key')
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'sqlite:///nutrition.db')
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    
+    # Initialize extensions
+    db.init_app(app)
+    CORS(app)
+    migrate = Migrate(app, db)
+    
+    # Register blueprints
+    register_blueprints(app)
+    
+    return app
 
 if __name__ == '__main__':
+    app = create_app()
+    with app.app_context():
+        db.create_all()
     app.run(debug=True)
