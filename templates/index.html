@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Personal Nutrition Assistant{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="container">
+        <div class="hero-content">
+            <h1><i class="fas fa-heartbeat"></i> Personal Nutrition Assistant</h1>
+            <p>Professional nutrition guidance for adults with BMI ≥ 30</p>
+            <div class="hero-buttons">
+                <a href="{{ url_for('auth.register') }}" class="btn btn-primary">
+                    <i class="fas fa-user-plus"></i> Get Started
+                </a>
+                <a href="{{ url_for('bmi.calculator') }}" class="btn btn-secondary">
+                    <i class="fas fa-calculator"></i> Check BMI
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <!-- Stats Section -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-users"></i>
+            </div>
+            <div class="stat-content">
+                <h3>{{ stats.eligible_users }}</h3>
+                <p>Eligible Users (BMI ≥ 30)</p>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-utensils"></i>
+            </div>
+            <div class="stat-content">
+                <h3>{{ stats.total_meals }}</h3>
+                <p>Nutrition Database</p>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-star"></i>
+            </div>
+            <div class="stat-content">
+                <h3>{{ stats.qa_score }}/100</h3>
+                <p>Quality Score</p>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <div class="stat-content">
+                <h3>{{ stats.test_coverage }}%</h3>
+                <p>Test Coverage</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Preview -->
+    <section class="features-preview">
+        <h2>Why Choose Our Platform?</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="fas fa-calculator"></i>
+                <h3>BMI Calculator</h3>
+                <p>Accurate BMI calculation with eligibility verification</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-database"></i>
+                <h3>Nutrition Database</h3>
+                <p>Comprehensive meal database with detailed information</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-chart-line"></i>
+                <h3>Progress Tracking</h3>
+                <p>Monitor your health journey with analytics</p>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

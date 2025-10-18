@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}Login - Personal Nutrition Assistant{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h1><i class="fas fa-sign-in-alt"></i> Login</h1>
+        <p>Access your personalized nutrition dashboard</p>
+    </div>
+    
+    <div style="max-width: 500px; margin: 0 auto;">
+        <div class="content-card">
+            <form method="POST">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" class="form-control" required 
+                           placeholder="Enter your email address">
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" class="form-control" required 
+                           placeholder="Enter your password">
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    <i class="fas fa-sign-in-alt"></i> Login to Dashboard
+                </button>
+            </form>
+            
+            <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #dee2e6;">
+                <p>Don't have an account? 
+                   <a href="{{ url_for('auth.register') }}" style="color: var(--primary-color); text-decoration: none; font-weight: 600;">Create one here</a>
+                </p>
+                <p style="margin-top: 0.5rem;">
+                   <a href="{{ url_for('bmi.calculator') }}" style="color: var(--secondary-color); text-decoration: none;">Check BMI Eligibility</a>
+                </p>
+            </div>
+        </div>
+        
+        <!-- Eligibility Information -->
+        <div style="background: linear-gradient(135deg, #e8f5e8, #d4f1d4); padding: 2rem; border-radius: var(--border-radius); margin-top: 2rem; border-left: 5px solid var(--primary-color);">
+            <h3><i class="fas fa-info-circle"></i> Service Eligibility</h3>
+            <p style="margin-bottom: 1rem;">This nutrition assistance platform is specifically designed for adults with <strong>BMI ≥ 30</strong>. After successful login, you'll have access to:</p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                <div>
+                    <i class="fas fa-calculator" style="color: var(--primary-color);"></i>
+                    <strong> Personalized Goals</strong><br>
+                    <small>Calorie targets based on BMI category</small>
+                </div>
+                <div>
+                    <i class="fas fa-utensils" style="color: var(--primary-color);"></i>
+                    <strong> Meal Recommendations</strong><br>
+                    <small>High-protein, fiber-rich options</small>
+                </div>
+                <div>
+                    <i class="fas fa-chart-line" style="color: var(--primary-color);"></i>
+                    <strong> Progress Tracking</strong><br>
+                    <small>Health-focused analytics</small>
+                </div>
+                <div>
+                    <i class="fas fa-shield-alt" style="color: var(--primary-color);"></i>
+                    <strong> Secure Platform</strong><br>
+                    <small>Enterprise-grade protection</small>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Demo Account Info -->
+        <div style="background: var(--light-bg); padding: 1.5rem; border-radius: var(--border-radius); margin-top: 1rem; text-align: center;">
+            <h4><i class="fas fa-user-circle"></i> Demo Account</h4>
+            <p style="margin: 0.5rem 0;">Want to try the platform? Use our demo account:</p>
+            <code style="background: var(--white); padding: 0.5rem; border-radius: 4px; display: inline-block; margin: 0.5rem;">
+                Email: demo@nutriassist.com | Password: demo123
+            </code>
+        </div>
+    </div>
+</div>
+{% endblock %}

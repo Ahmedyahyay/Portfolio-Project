@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+
+{% block title %}BMI Calculator - Personal Nutrition Assistant{% endblock %}
+
+{% block extra_css %}
+<style>
+    .bmi-calculator {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    .bmi-form {
+        background: var(--white);
+        padding: 2rem;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+        margin-bottom: 2rem;
+    }
+    
+    .bmi-preview {
+        background: var(--light-bg);
+        padding: 1rem;
+        border-radius: var(--border-radius);
+        margin-top: 1rem;
+        text-align: center;
+        font-weight: 600;
+    }
+    
+    .bmi-result {
+        background: var(--white);
+        padding: 2rem;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+        margin-bottom: 2rem;
+    }
+    
+    .bmi-result.eligible {
+        border-left: 5px solid var(--success-color);
+    }
+    
+    .bmi-result.not-eligible {
+        border-left: 5px solid var(--warning-color);
+    }
+    
+    .bmi-categories {
+        background: var(--white);
+        padding: 2rem;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+    }
+    
+    .category-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
+        margin-top: 1rem;
+    }
+    
+    .category-item {
+        padding: 0.75rem;
+        border-radius: var(--border-radius);
+        background: var(--light-bg);
+    }
+    
+    .category-item.eligible {
+        background: #d4edda;
+        color: #155724;
+        font-weight: 600;
+    }
+    
+    .text-success { color: var(--success-color); }
+    .text-warning { color: var(--warning-color); }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h1><i class="fas fa-calculator"></i> BMI Calculator</h1>
+        <p>Calculate your Body Mass Index and check service eligibility</p>
+    </div>
+    
+    <div class="bmi-calculator">
+        <div class="bmi-form">
+            <form method="POST" id="bmiForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="height">Height (cm)</label>
+                        <input type="number" id="height" name="height" class="form-control" 
+                               min="100" max="250" step="0.1" required
+                               value="{{ result.height if result }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="weight">Weight (kg)</label>
+                        <input type="number" id="weight" name="weight" class="form-control" 
+                               min="30" max="300" step="0.1" required
+                               value="{{ result.weight if result }}">
+                    </div>
+                </div>
+                
+                <div id="bmiPreview"></div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+                    <i class="fas fa-calculator"></i> Calculate BMI
+                </button>
+            </form>
+        </div>
+        
+        {% if result %}
+        <div class="bmi-result {{ 'eligible' if result.eligible else 'not-eligible' }}">
+            <h3>Your BMI Results</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0;">
+                <div>
+                    <strong>BMI:</strong> {{ result.bmi }}
+                </div>
+                <div>
+                    <strong>Category:</strong> {{ result.category }}
+                </div>
+                <div>
+                    <strong>Height:</strong> {{ result.height }} cm
+                </div>
+                <div>
+                    <strong>Weight:</strong> {{ result.weight }} kg
+                </div>
+            </div>
+            
+            {% if result.eligible %}
+            <div style="background: rgba(40, 167, 69, 0.1); padding: 1rem; border-radius: var(--border-radius); margin-top: 1rem;">
+                <h4><i class="fas fa-check-circle text-success"></i> Eligible for Service!</h4>
+                <p>Your BMI qualifies you for our specialized nutrition assistance program designed for adults with BMI ≥ 30.</p>
+                <a href="{{ url_for('auth.register') }}" class="btn btn-primary" style="margin-top: 1rem;">
+                    <i class="fas fa-user-plus"></i> Create Account
+                </a>
+            </div>
+            {% else %}
+            <div style="background: rgba(255, 193, 7, 0.1); padding: 1rem; border-radius: var(--border-radius); margin-top: 1rem;">
+                <h4><i class="fas fa-info-circle text-warning"></i> Service Information</h4>
+                <p>Our nutrition assistance program is specifically designed for adults with BMI ≥ 30. We recommend consulting with a healthcare professional for personalized advice.</p>
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+        
+        <div class="bmi-categories">
+            <h3>BMI Categories</h3>
+            <div class="category-grid">
+                <div><strong>BMI Range</strong></div>
+                <div><strong>Category</strong></div>
+                
+                <div class="category-item">< 18.5</div>
+                <div class="category-item">Underweight</div>
+                
+                <div class="category-item">18.5 - 24.9</div>
+                <div class="category-item">Normal weight</div>
+                
+                <div class="category-item">25.0 - 29.9</div>
+                <div class="category-item">Overweight</div>
+                
+                <div class="category-item eligible">30.0 - 34.9</div>
+                <div class="category-item eligible">Class I Obesity ✓</div>
+                
+                <div class="category-item eligible">35.0 - 39.9</div>
+                <div class="category-item eligible">Class II Obesity ✓</div>
+                
+                <div class="category-item eligible">≥ 40.0</div>
+                <div class="category-item eligible">Class III Obesity ✓</div>
+            </div>
+            <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--secondary-color);">
+                ✓ = Eligible for our specialized nutrition assistance program
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

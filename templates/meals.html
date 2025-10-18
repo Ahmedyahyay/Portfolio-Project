@@ -1,0 +1,349 @@
+{% extends "base.html" %}
+
+{% block title %}USDA Meals Database - All Records{% endblock %}
+
+{% block extra_css %}
+<style>
+    .full-display-notice {
+        background: linear-gradient(135deg, #e8f5e8, #d4f1d4);
+        padding: 1rem;
+        border-radius: var(--border-radius);
+        margin-bottom: 1rem;
+        border-left: 4px solid var(--primary-color);
+        text-align: center;
+    }
+    
+    .comprehensive-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+    
+    .stat-card {
+        background: var(--light-bg);
+        padding: 1rem;
+        border-radius: var(--border-radius);
+        text-align: center;
+        border-left: 4px solid var(--primary-color);
+        transition: var(--transition);
+    }
+    
+    .stat-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow);
+    }
+    
+    .meals-table-wrapper {
+        max-height: 600px;
+        overflow-y: auto;
+        border: 1px solid #dee2e6;
+        border-radius: var(--border-radius);
+    }
+    
+    .show-all-toggle {
+        background: var(--info-color);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-left: 1rem;
+    }
+    
+    .search-form {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr auto;
+        gap: 1rem;
+        align-items: end;
+        background: var(--light-bg);
+        padding: 1.5rem;
+        border-radius: var(--border-radius);
+        margin-bottom: 2rem;
+    }
+    
+    .meals-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.9rem;
+    }
+    
+    .meals-table th {
+        background: var(--primary-gradient);
+        color: white;
+        padding: 1rem 0.75rem;
+        text-align: left;
+        font-weight: 600;
+        position: sticky;
+        top: 0;
+    }
+    
+    .meals-table td {
+        padding: 1rem 0.75rem;
+        border-bottom: 1px solid #e9ecef;
+        vertical-align: top;
+    }
+    
+    .meals-table tr:hover {
+        background: var(--light-bg);
+    }
+    
+    .nutrition-score {
+        padding: 0.5rem;
+        border-radius: var(--border-radius);
+        font-weight: 600;
+        text-align: center;
+        min-width: 60px;
+    }
+    
+    .score-excellent { background: #d4edda; color: #155724; }
+    .score-good { background: #fff3cd; color: #856404; }
+    .score-fair { background: #f8d7da; color: #721c24; }
+    
+    .usda-badge {
+        background: #e3f2fd;
+        color: #1976d2;
+        padding: 0.25rem 0.5rem;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 500;
+    }
+    
+    @media (max-width: 768px) {
+        .search-form {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h1><i class="fas fa-utensils"></i> USDA Nutrition Database 
+            <span class="show-all-toggle">Showing All Records</span>
+        </h1>
+        <p>Complete nutrition data from US Department of Agriculture FoodData Central - No Limits Applied</p>
+    </div>
+    
+    <!-- Full Display Notice -->
+    <div class="full-display-notice">
+        <strong><i class="fas fa-info-circle"></i> Full Database View Active</strong> - 
+        Displaying all {{ stats.total_meals or 0 }} meals without pagination or limits. 
+        Use filters below to narrow results if needed.
+    </div>
+    
+    <!-- Comprehensive Statistics for ALL meals -->
+    {% if stats %}
+    <div class="comprehensive-stats">
+        <div class="stat-card">
+            <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary-color);">{{ stats.total_meals }}</div>
+            <div style="font-size: 0.9rem;">Total Meals</div>
+        </div>
+        <div class="stat-card">
+            <div style="font-size: 1.5rem; font-weight: 700; color: #FF5722;">{{ stats.breakfast_meals }}</div>
+            <div style="font-size: 0.9rem;">Breakfast</div>
+        </div>
+        <div class="stat-card">
+            <div style="font-size: 1.5rem; font-weight: 700; color: #2196F3;">{{ stats.lunch_meals }}</div>
+            <div style="font-size: 0.9rem;">Lunch</div>
+        </div>
+        <div class="stat-card">
+            <div style="font-size: 1.5rem; font-weight: 700; color: #9C27B0;">{{ stats.dinner_meals }}</div>
+            <div style="font-size: 0.9rem;">Dinner</div>
+        </div>
+        <div class="stat-card">
+            <div style="font-size: 1.5rem; font-weight: 700; color: #795548;">{{ stats.snack_meals }}</div>
+            <div style="font-size: 0.9rem;">Snacks</div>
+        </div>
+        <div class="stat-card">
+            <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary-color);">{{ stats.high_protein_meals }}</div>
+            <div style="font-size: 0.9rem;">High Protein (≥15g)</div>
+        </div>
+        <div class="stat-card">
+            <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary-color);">{{ stats.high_fiber_meals }}</div>
+            <div style="font-size: 0.9rem;">High Fiber (≥3g)</div>
+        </div>
+        <div class="stat-card">
+            <div style="font-size: 1.5rem; font-weight: 700; color: var(--success-color);">{{ stats.eligible_meals }}</div>
+            <div style="font-size: 0.9rem;">BMI≥30 Suitable</div>
+        </div>
+        <div class="stat-card">
+            <div style="font-size: 1.5rem; font-weight: 700; color: var(--info-color);">{{ stats.usda_verified }}</div>
+            <div style="font-size: 0.9rem;">USDA Verified</div>
+        </div>
+        <div class="stat-card">
+            <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary-color);">{{ stats.avg_nutrition_score }}</div>
+            <div style="font-size: 0.9rem;">Avg Score/50</div>
+        </div>
+    </div>
+    {% endif %}
+    
+    <!-- Search and Filter -->
+    <form method="GET" class="search-form">
+        <div>
+            <label>Search Meals</label>
+            <input type="text" name="search" value="{{ request.args.get('search', '') }}" 
+                   placeholder="Search by name or ingredients..." class="form-control">
+        </div>
+        <div>
+            <label>Meal Type</label>
+            <select name="meal_type" class="form-control">
+                <option value="">All Types</option>
+                <option value="breakfast" {% if request.args.get('meal_type') == 'breakfast' %}selected{% endif %}>Breakfast</option>
+                <option value="lunch" {% if request.args.get('meal_type') == 'lunch' %}selected{% endif %}>Lunch</option>
+                <option value="dinner" {% if request.args.get('meal_type') == 'dinner' %}selected{% endif %}>Dinner</option>
+                <option value="snack" {% if request.args.get('meal_type') == 'snack' %}selected{% endif %}>Snack</option>
+            </select>
+        </div>
+        <div>
+            <label>Max Calories</label>
+            <input type="number" name="max_calories" value="{{ request.args.get('max_calories', '') }}" 
+                   placeholder="400" class="form-control">
+        </div>
+        <div>
+            <label>Min Protein (g)</label>
+            <input type="number" name="min_protein" value="{{ request.args.get('min_protein', '') }}" 
+                   placeholder="15" step="0.1" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary">
+            <i class="fas fa-search"></i> Filter
+        </button>
+        <input type="hidden" name="show_all" value="true">
+    </form>
+    
+    <div class="content-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h2>Complete USDA Database ({{ meals|length }} of {{ stats.total_meals or 0 }} meals)</h2>
+            <div style="color: var(--secondary-color); font-size: 0.9rem;">
+                <i class="fas fa-database"></i> Full Database Access | 
+                <i class="fas fa-certificate"></i> USDA Verified | 
+                <i class="fas fa-infinity"></i> No Pagination
+            </div>
+        </div>
+        
+        {% if meals %}
+        <div class="meals-table-wrapper">
+            <table class="meals-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name & USDA ID</th>
+                        <th>Type</th>
+                        <th>Calories</th>
+                        <th>Protein (g)</th>
+                        <th>Carbs (g)</th>
+                        <th>Fat (g)</th>
+                        <th>Fiber (g)</th>
+                        <th>Sugar (g)</th>
+                        <th>Sodium (mg)</th>
+                        <th>Ingredients</th>
+                        <th>Allergens</th>
+                        <th>Serving Size</th>
+                        <th>Nutrition Score</th>
+                        <th>BMI≥30 Suitable</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for meal in meals %}
+                    <tr>
+                        <td style="font-weight: 600; color: var(--secondary-color);">{{ loop.index }}</td>
+                        <td>
+                            <strong>{{ meal.name }}</strong>
+                            {% if meal.usda_id %}
+                            <br><span class="usda-badge">USDA: {{ meal.usda_id }}</span>
+                            {% endif %}
+                        </td>
+                        <td><span style="text-transform: capitalize; font-weight: 500;">{{ meal.type }}</span></td>
+                        <td><strong style="color: var(--primary-color);">{{ meal.calories }}</strong></td>
+                        <td>{{ meal.protein or 'N/A' }}</td>
+                        <td>{{ meal.carbs or 'N/A' }}</td>
+                        <td>{{ meal.fat or 'N/A' }}</td>
+                        <td>{{ meal.fiber or 'N/A' }}</td>
+                        <td>{{ meal.sugar or 'N/A' }}</td>
+                        <td>{{ meal.sodium or 'N/A' }}</td>
+                        <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis;" 
+                            title="{{ meal.ingredients or 'Not specified' }}">
+                            {{ meal.ingredients or 'Not specified' }}
+                        </td>
+                        <td>
+                            {% if meal.allergens and meal.allergens != 'None' %}
+                                <span style="color: #dc3545; font-weight: 500;">{{ meal.allergens }}</span>
+                            {% else %}
+                                <span style="color: #28a745;">None</span>
+                            {% endif %}
+                        </td>
+                        <td style="text-align: center;">{{ meal.serving_size or 'Standard' }}</td>
+                        <td>
+                            {% set score = meal.nutrition_score if meal.nutrition_score is defined else 0 %}
+                            {% set score_class = 'score-excellent' if score >= 30 else 'score-good' if score >= 15 else 'score-fair' %}
+                            <div class="nutrition-score {{ score_class }}">
+                                {{ "%.1f"|format(score) }}/50
+                            </div>
+                        </td>
+                        <td style="text-align: center;">
+                            {% set eligible = meal.eligible_for_target if meal.eligible_for_target is defined else False %}
+                            {% if eligible %}
+                                <span style="color: #28a745; font-weight: 600;">✓ Yes</span>
+                            {% else %}
+                                <span style="color: #dc3545; font-weight: 600;">✗ No</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Display totals confirmation -->
+        <div style="margin-top: 1rem; padding: 1rem; background: var(--light-bg); border-radius: var(--border-radius); text-align: center;">
+            <strong>✅ Displaying all {{ meals|length }} meals from the database</strong>
+            {% if meals|length != stats.total_meals %}
+            <br><small style="color: var(--warning-color);">⚠️ Filters applied - {{ stats.total_meals - meals|length }} meals hidden by current filters</small>
+            {% endif %}
+        </div>
+        
+        {% else %}
+        <div style="text-align: center; padding: 3rem; color: var(--secondary-color);">
+            <i class="fas fa-database" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+            <h3>No Meals Found</h3>
+            <p>{% if error %}{{ error }}{% else %}No meals match your current filter criteria.{% endif %}</p>
+            <a href="{{ url_for('meals.index') }}" class="btn btn-primary" style="margin-top: 1rem;">
+                <i class="fas fa-refresh"></i> Show All Meals
+            </a>
+        </div>
+        {% endif %}
+    </div>
+    
+    {% if meals %}
+    <div class="content-card">
+        <h3><i class="fas fa-info-circle"></i> USDA Integration Information</h3>
+        <p>All meals are sourced from the USDA FoodData Central database and optimized for adults with BMI ≥ 30. Nutrition scores are calculated based on protein content, fiber content, and calorie density following evidence-based patterns for weight management.</p>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 1rem;">
+            <div style="background: #d4edda; padding: 1rem; border-radius: var(--border-radius);">
+                <strong style="color: #155724;">Excellent (30+ points):</strong>
+                High protein (≥15g), good fiber (≥3g), appropriate calories (≤400)
+            </div>
+            <div style="background: #fff3cd; padding: 1rem; border-radius: var(--border-radius);">
+                <strong style="color: #856404;">Good (15-29 points):</strong>
+                Meets some criteria, suitable with portion awareness
+            </div>
+            <div style="background: #f8d7da; padding: 1rem; border-radius: var(--border-radius);">
+                <strong style="color: #721c24;">Fair (<15 points):</strong>
+                Consider as occasional treats, may need supplementation
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+// Add meal count to page title
+document.title = `USDA Database ({{ meals|length }}) - Personal Nutrition Assistant`;
+
+// Log full display confirmation
+console.log('✅ Full database view active - displaying all {{ meals|length }} meals');
+console.log('📊 Database stats:', {{ stats|tojson if stats else '{}' }});
+</script>
+{% endblock %}
