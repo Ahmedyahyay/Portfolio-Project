@@ -4,6 +4,8 @@ from datetime import datetime
 db = SQLAlchemy()
 
 class User(db.Model):
+    __tablename__ = 'user'
+    
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
@@ -17,7 +19,7 @@ class User(db.Model):
     meal_history = db.relationship('MealHistory', backref='user', lazy=True)
 
     def calculate_bmi(self):
-        """Calculate BMI following copilot health-centric data model"""
+        """Calculate BMI with health-centric data model"""
         if self.height and self.weight:
             # Critical: height in cm, convert to meters for BMI calculation
             height_m = self.height / 100
@@ -25,11 +27,11 @@ class User(db.Model):
         return self.BMI
 
     def is_eligible_for_service(self):
-        """Check BMI eligibility following copilot business rules"""
+        """Check BMI eligibility with business rules"""
         return self.BMI and self.BMI >= 30.0
 
     def get_bmi_category(self):
-        """Get BMI category following health-centric patterns"""
+        """Get BMI category with health-centric patterns"""
         if not self.BMI:
             return 'Unknown'
         if self.BMI < 18.5:
@@ -49,6 +51,8 @@ class User(db.Model):
         return f'<User {self.username}>'
 
 class Meal(db.Model):
+    __tablename__ = 'meal'
+    
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), nullable=False)
     type = db.Column(db.String(50), nullable=False)  # breakfast/lunch/dinner/snack
@@ -67,7 +71,7 @@ class Meal(db.Model):
     meal_history = db.relationship('MealHistory', backref='meal', lazy=True)
 
     def calculate_nutrition_score(self):
-        """Calculate nutrition score for meal recommendations following health-centric model"""
+        """Calculate nutrition score for meal recommendations with health-centric model"""
         score = 0
         
         # Protein scoring (higher is better for weight management)
@@ -89,7 +93,7 @@ class Meal(db.Model):
         return min(score, 50)  # Max score of 50
 
     def meets_eligibility_criteria(self, user_bmi):
-        """Check if meal meets criteria for BMI >= 30 demographic following copilot business rules"""
+        """Check if meal meets criteria for BMI >= 30 demographic with business rules"""
         if user_bmi < 30:
             return False
         
@@ -112,11 +116,11 @@ class Meal(db.Model):
         if (self.sugar or 0) <= 15:
             criteria_met += 1
         
-        # Must meet at least 75% of criteria following copilot health-centric patterns
+        # Must meet at least 75% of criteria with health-centric patterns
         return criteria_met >= (total_criteria * 0.75)
 
     def to_dict(self):
-        """Convert meal to dictionary for API responses following copilot patterns"""
+        """Convert meal to dictionary for API responses with patterns"""
         return {
             'id': self.id,
             'name': self.name,
@@ -140,6 +144,8 @@ class Meal(db.Model):
         return f'<Meal {self.name}>'
 
 class MealHistory(db.Model):
+    __tablename__ = 'meal_history'
+    
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     meal_id = db.Column(db.Integer, db.ForeignKey('meal.id'), nullable=False)
@@ -147,7 +153,7 @@ class MealHistory(db.Model):
     portion_size = db.Column(db.Float, default=1.0)  # multiplier for serving
 
     def calculate_adjusted_nutrition(self):
-        """Calculate nutrition based on portion size following copilot health-centric model"""
+        """Calculate nutrition based on portion size with health-centric model"""
         if not self.meal:
             return {}
         
@@ -165,6 +171,8 @@ class MealHistory(db.Model):
         return f'<MealHistory User:{self.user_id} Meal:{self.meal_id}>'
 
 class NutritionGoal(db.Model):
+    __tablename__ = 'nutrition_goal'
+    
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     daily_calories = db.Column(db.Integer, nullable=False)
@@ -179,6 +187,8 @@ class NutritionGoal(db.Model):
 
 # Additional model for user preferences and settings
 class UserProfile(db.Model):
+    __tablename__ = 'user_profile'
+    
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, unique=True)
     activity_level = db.Column(db.String(50), default='sedentary')  # sedentary/light/moderate/active
@@ -197,6 +207,8 @@ class UserProfile(db.Model):
 
 # Model for meal ratings and reviews
 class MealRating(db.Model):
+    __tablename__ = 'meal_rating'
+    
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     meal_id = db.Column(db.Integer, db.ForeignKey('meal.id'), nullable=False)
@@ -215,6 +227,8 @@ class MealRating(db.Model):
 
 # Model for food categories/tags
 class FoodCategory(db.Model):
+    __tablename__ = 'food_category'
+    
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), unique=True, nullable=False)
     description = db.Column(db.Text, nullable=True)
