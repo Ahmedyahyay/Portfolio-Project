@@ -4,6 +4,8 @@ from datetime import datetime
 db = SQLAlchemy()
 
 class User(db.Model):
+    __tablename__ = 'user'
+    
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
@@ -49,6 +51,8 @@ class User(db.Model):
         return f'<User {self.username}>'
 
 class Meal(db.Model):
+    __tablename__ = 'meal'
+    
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), nullable=False)
     type = db.Column(db.String(50), nullable=False)  # breakfast/lunch/dinner/snack
@@ -140,6 +144,8 @@ class Meal(db.Model):
         return f'<Meal {self.name}>'
 
 class MealHistory(db.Model):
+    __tablename__ = 'meal_history'
+    
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     meal_id = db.Column(db.Integer, db.ForeignKey('meal.id'), nullable=False)
@@ -165,6 +171,8 @@ class MealHistory(db.Model):
         return f'<MealHistory User:{self.user_id} Meal:{self.meal_id}>'
 
 class NutritionGoal(db.Model):
+    __tablename__ = 'nutrition_goal'
+    
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     daily_calories = db.Column(db.Integer, nullable=False)
@@ -179,6 +187,8 @@ class NutritionGoal(db.Model):
 
 # Additional model for user preferences and settings
 class UserProfile(db.Model):
+    __tablename__ = 'user_profile'
+    
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, unique=True)
     activity_level = db.Column(db.String(50), default='sedentary')  # sedentary/light/moderate/active
@@ -197,6 +207,8 @@ class UserProfile(db.Model):
 
 # Model for meal ratings and reviews
 class MealRating(db.Model):
+    __tablename__ = 'meal_rating'
+    
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     meal_id = db.Column(db.Integer, db.ForeignKey('meal.id'), nullable=False)
@@ -215,6 +227,8 @@ class MealRating(db.Model):
 
 # Model for food categories/tags
 class FoodCategory(db.Model):
+    __tablename__ = 'food_category'
+    
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), unique=True, nullable=False)
     description = db.Column(db.Text, nullable=True)
