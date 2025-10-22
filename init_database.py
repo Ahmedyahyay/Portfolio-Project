@@ -79,7 +79,7 @@ def initialize_database():
         
         print("\n🎉 Database setup completed successfully!")
         print("🎯 Target: Adults with BMI ≥ 30")
-        print("📊 Following copilot instructions with health-centric data model")
+        print("📊 with health-centric data model")
 
 def add_sample_data():
     """Add sample data following copilot health-centric patterns"""

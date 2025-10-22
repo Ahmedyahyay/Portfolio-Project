@@ -12,7 +12,7 @@ from routes import register_blueprints
 from session_fix import apply_session_fix
 
 def create_app(config_name=None):
-    """Application factory pattern following copilot instructions"""
+    """Application factory pattern"""
     app = Flask(__name__, 
                 template_folder='../templates',
                 static_folder='../static')
@@ -75,7 +75,7 @@ if __name__ == '__main__':
         # Log startup info following copilot health-centric patterns
         app.logger.info('🏥 Personal Nutrition Assistant - Flask MVP')
         app.logger.info('🎯 Target: Adults with BMI ≥ 30')
-        app.logger.info('🔬 Following copilot instructions sprint-based development')
+        app.logger.info('🔬 sprint-based development')
         app.logger.info('🗄️ Database: SQLite (development) / PostgreSQL (production)')
         app.logger.info('🔧 Session interface fix applied for cookie compatibility')
     
@@ -83,7 +83,7 @@ if __name__ == '__main__':
     print("🎯 Target: Adults with BMI ≥ 30")
     print("🌐 Server: http://127.0.0.1:5000")
     print("📧 Demo Login: demo@nutriassist.com / demo123")
-    print("🔬 Following copilot instructions with health-centric data model")
+    print("🔬 with health-centric data model")
     print("🔧 Session cookie fix applied for Flask compatibility")
     
     app.run(debug=True, host='127.0.0.1', port=5000)
