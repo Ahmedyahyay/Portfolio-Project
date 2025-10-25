@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "🔧 Personal Nutrition Assistant - Database Schema Fix"
-echo "Following copilot instructions database migration workflow"
+echo "instructions database migration workflow"
 echo "Fix: OperationalError - no such column 'username'"
 echo "========================================================="
 
@@ -24,7 +24,7 @@ echo "Checking if username column exists in User table..."
 
 # Create migration to add username column
 echo "🔄 Creating migration for username column..."
-flask db migrate -m "Add username column to User table following copilot health-centric patterns"
+flask db migrate -m "Add username column to User table health-centric patterns"
 
 # Apply the migration
 echo "⬆️  Applying migration to database..."
@@ -42,7 +42,7 @@ echo "📋 What was fixed:"
 echo "   ✅ Added username column to User table"
 echo "   ✅ Updated existing users with usernames based on email"
 echo "   ✅ Ensured unique usernames for all users"
-echo "   ✅ Applied proper database migration following copilot patterns"
+echo "   ✅ Applied proper database migration patterns"
 echo ""
 echo "🎯 Registration and login should now work without OperationalError"
 echo ""

@@ -1,13 +1,13 @@
 #!/bin/bash
 
 echo "🏥 Personal Nutrition Assistant - Flask Project Setup"
-echo "Following copilot instructions sprint-based development workflow"
+echo "instructions sprint-based development workflow"
 echo "=============================================================="
 
 PROJECT_ROOT="/home/ahmed/Portfolio-Project"
 cd "$PROJECT_ROOT" || exit 1
 
-# Create project directory structure following copilot blueprint organization
+# Create project directory structure blueprint organization
 echo "📁 Creating project directory structure..."
 mkdir -p backend/{routes,templates,static/{css,js,images},tests,migrations,instance}
 mkdir -p frontend
@@ -40,7 +40,7 @@ source venv/bin/activate
 echo "⬆️  Upgrading pip..."
 pip install --upgrade pip
 
-# Install dependencies following copilot requirements
+# Install dependencies requirements
 echo "📥 Installing Flask dependencies..."
 pip install Flask==2.3.3
 pip install Flask-SQLAlchemy==3.0.5
@@ -65,12 +65,12 @@ cd backend
 # Set Flask app environment variable
 export FLASK_APP=app.py
 
-# Initialize migrations following copilot database migration workflow
+# Initialize migrations database migration workflow
 flask db init
 
 echo "✅ Database migrations initialized"
 
-# Create .env files following copilot environment-aware database pattern
+# Create .env files environment-aware database pattern
 echo "⚙️  Creating environment configuration files..."
 cd "$PROJECT_ROOT"
 
@@ -95,7 +95,7 @@ echo "✅ Environment files created"
 # Create initial database migration
 echo "🔄 Creating initial database migration..."
 cd backend
-flask db migrate -m "Initial migration with health-centric data model following copilot patterns"
+flask db migrate -m "Initial migration with health-centric data model patterns"
 
 echo "✅ Initial migration created"
 
@@ -104,7 +104,7 @@ echo "🧪 Creating setup verification test..."
 cat > test_setup.py << EOF
 #!/usr/bin/env python3
 """
-Setup verification test following copilot QA integration patterns
+Setup verification test QA integration patterns
 """
 import sys
 import os
@@ -125,7 +125,7 @@ def test_imports():
         return False
 
 def test_app_creation():
-    """Test Flask app creation following copilot patterns"""
+    """Test Flask app creation patterns"""
     try:
         from app import create_app
         app = create_app()
@@ -136,11 +136,11 @@ def test_app_creation():
         return False
 
 def test_database_models():
-    """Test database models following copilot health-centric data model"""
+    """Test database models health-centric data model"""
     try:
         from models import User, Meal
         
-        # Test User BMI calculation (copilot critical pattern)
+        # Test User BMI calculation (critical pattern)
         user = User()
         user.height = 170  # cm
         user.weight = 90   # kg
@@ -151,7 +151,7 @@ def test_database_models():
         else:
             print(f"⚠️  BMI calculation: {bmi} (Not eligible)")
         
-        # Test eligibility check (copilot business rules)
+        # Test eligibility check (business rules)
         eligible = user.is_eligible_for_service()
         print(f"✅ Eligibility check: {eligible}")
         
@@ -162,7 +162,7 @@ def test_database_models():
 
 if __name__ == "__main__":
     print("🔍 Personal Nutrition Assistant - Setup Verification")
-    print("Following copilot instructions sprint-based development")
+    print("instructions sprint-based development")
     print("=" * 55)
     
     tests = [
@@ -199,7 +199,7 @@ echo ""
 echo "🎉 Project setup completed successfully!"
 echo ""
 echo "📋 Project Structure Created:"
-echo "   ├── backend/              # Flask application following copilot blueprint organization"
+echo "   ├── backend/              # Flask application blueprint organization"
 echo "   │   ├── app.py            # Main application factory"
 echo "   │   ├── models.py         # Health-centric data models (BMI ≥ 30 targeting)"
 echo "   │   ├── routes/           # Feature-based routing blueprints"
@@ -225,5 +225,5 @@ echo ""
 echo "💡 Next Steps:"
 echo "   - Create remaining HTML templates (meals.html, bmi.html, etc.)"
 echo "   - Implement USDA API integration for nutrition data"
-echo "   - Add comprehensive testing following copilot QA patterns"
+echo "   - Add comprehensive testing QA patterns"
 echo "   - Deploy with Gunicorn for production"

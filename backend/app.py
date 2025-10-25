@@ -6,7 +6,7 @@ import os
 import logging
 from datetime import datetime
 
-# Import models and routes following copilot blueprint organization
+# Import models and routes blueprint organization
 from models import db
 from routes import register_blueprints
 from session_fix import apply_session_fix
@@ -17,7 +17,7 @@ def create_app(config_name=None):
                 template_folder='../templates',
                 static_folder='../static')
     
-    # Configuration following copilot environment-aware database pattern
+    # Configuration environment-aware database pattern
     config_name = config_name or os.environ.get('FLASK_ENV', 'development')
     
     if config_name == 'production':
@@ -31,7 +31,7 @@ def create_app(config_name=None):
     
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
-    # Initialize extensions following copilot blueprint organization
+    # Initialize extensions blueprint organization
     db.init_app(app)
     migrate = Migrate(app, db)
     
@@ -41,7 +41,7 @@ def create_app(config_name=None):
     # Apply session fix to prevent 'partitioned' cookie TypeError
     apply_session_fix(app)
     
-    # Setup logging following copilot QA integration patterns
+    # Setup logging QA integration patterns
     if not app.debug:
         if not os.path.exists('logs'):
             os.mkdir('logs')
@@ -54,7 +54,7 @@ def create_app(config_name=None):
         app.logger.setLevel(logging.INFO)
         app.logger.info('Personal Nutrition Assistant startup')
     
-    # Register blueprints using centralized registration following copilot patterns
+    # Register blueprints using centralized registration patterns
     register_blueprints(app)
     
     return app
@@ -72,7 +72,7 @@ if __name__ == '__main__':
         except Exception as e:
             app.logger.error(f'Database creation error: {e}')
         
-        # Log startup info following copilot health-centric patterns
+        # Log startup info health-centric patterns
         app.logger.info('🏥 Personal Nutrition Assistant - Flask MVP')
         app.logger.info('🎯 Target: Adults with BMI ≥ 30')
         app.logger.info('🔬 sprint-based development')

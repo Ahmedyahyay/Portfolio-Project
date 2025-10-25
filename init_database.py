@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Database initialization script following copilot database migration workflow
+Database initialization script database migration workflow
 """
 
 import os
@@ -10,10 +10,10 @@ from flask_migrate import Migrate, init, migrate, upgrade
 from backend.models import db
 
 def create_app():
-    """Create Flask app for database initialization following copilot patterns"""
+    """Create Flask app for database initialization patterns"""
     app = Flask(__name__)
     
-    # Configuration following copilot environment-aware database pattern  
+    # Configuration environment-aware database pattern  
     app.config['SECRET_KEY'] = 'dev-secret-key-for-migration'
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///nutrition.db')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -25,9 +25,9 @@ def create_app():
     return app
 
 def initialize_database():
-    """Initialize database and migrations following copilot workflow"""
+    """Initialize database and migrations workflow"""
     print("🗄️ Personal Nutrition Assistant - Database Setup")
-    print("Following copilot instructions database migration workflow")
+    print("instructions database migration workflow")
     print("=" * 60)
     
     app = create_app()
@@ -47,7 +47,7 @@ def initialize_database():
         print("🔄 Creating initial migration with health-centric data model...")
         try:
             migrate(directory=migrations_dir, 
-                   message="Initial migration with health-centric data model following copilot patterns")
+                   message="Initial migration with health-centric data model patterns")
             print("✅ Initial migration created successfully")
         except Exception as e:
             print(f"⚠️  Migration creation warning: {e}")
@@ -73,7 +73,7 @@ def initialize_database():
         else:
             print("✅ All expected tables created successfully")
         
-        # Add sample data following copilot health-centric patterns
+        # Add sample data health-centric patterns
         print("📊 Adding sample data...")
         add_sample_data()
         
@@ -82,7 +82,7 @@ def initialize_database():
         print("📊 with health-centric data model")
 
 def add_sample_data():
-    """Add sample data following copilot health-centric patterns"""
+    """Add sample data health-centric patterns"""
     from backend.models import User, Meal, FoodCategory
     from backend.usda_api import populate_usda_meals
     from werkzeug.security import generate_password_hash
@@ -93,7 +93,7 @@ def add_sample_data():
         meal_count = populate_usda_meals(target_count=75)
         logger.info(f"✅ USDA meals populated: {meal_count}")
         
-        # Add demo user following copilot BMI >= 30 eligibility patterns
+        # Add demo user BMI >= 30 eligibility patterns
         if not User.query.filter_by(email='demo@nutriassist.com').first():
             demo_user = User(
                 username='demo_user',

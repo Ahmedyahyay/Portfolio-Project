@@ -1,6 +1,6 @@
 """
 Session interface override to fix TypeError with 'partitioned' cookie argument
-Following copilot instructions for compatibility fixes
+instructions for compatibility fixes
 """
 
 from flask.sessions import SecureCookieSessionInterface
@@ -55,7 +55,7 @@ class FixedSessionInterface(SecureCookieSessionInterface):
             super().save_session(app, session, response)
 
 def apply_session_fix(app: Flask):
-    """Apply session interface fix to Flask app following copilot patterns"""
+    """Apply session interface fix to Flask app patterns"""
     app.session_interface = FixedSessionInterface()
     app.logger.info("✅ Applied session interface fix for 'partitioned' cookie error")
     return app

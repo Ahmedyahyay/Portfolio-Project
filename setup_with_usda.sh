@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "🍽️ Personal Nutrition Assistant - Complete Setup with USDA Integration"
-echo "Following copilot instructions health-centric data model"
+echo "instructions health-centric data model"
 echo "Target: 75 meals suitable for BMI >= 30 demographic"
 echo "=================================================================="
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Test script to verify session fix works correctly
-Following copilot QA integration patterns
+QA integration patterns
 """
 
 import requests
@@ -11,7 +11,7 @@ from backend.app import create_app
 def test_session_operations():
     """Test session operations to ensure no 'partitioned' cookie errors"""
     print("🧪 Testing session operations after Flask version fix")
-    print("Following copilot instructions for TypeError resolution")
+    print("instructions for TypeError resolution")
     print("=" * 55)
     
     base_url = "http://127.0.0.1:5000"

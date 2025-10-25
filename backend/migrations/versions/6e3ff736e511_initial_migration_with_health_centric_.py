@@ -1,4 +1,4 @@
-"""Initial migration with health-centric data model following copilot patterns
+"""Initial migration with health-centric data model patterns
 
 Revision ID: 6e3ff736e511
 Revises: 

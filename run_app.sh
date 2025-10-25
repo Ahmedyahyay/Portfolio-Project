@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "🏥 Personal Nutrition Assistant - Starting Application"
-echo "Following copilot instructions sprint-based development workflow"
+echo "instructions sprint-based development workflow"
 echo "=============================================================="
 
 PROJECT_ROOT="/home/ahmed/Portfolio-Project"
@@ -22,7 +22,7 @@ export FLASK_ENV=development
 echo "🗄️ Applying database migrations..."
 flask db upgrade
 
-# Add sample data following copilot health-centric patterns
+# Add sample data health-centric patterns
 echo "📊 Adding sample nutrition data..."
 python3 -c "
 import sys
@@ -33,7 +33,7 @@ from werkzeug.security import generate_password_hash
 
 app = create_app()
 with app.app_context():
-    # Add sample meals following copilot patterns
+    # Add sample meals patterns
     if not Meal.query.first():
         meals = [
             Meal(name='Grilled Chicken Breast', type='lunch', calories=285, protein=35.2, carbs=0.0, fat=12.8, fiber=0.0, ingredients='Chicken breast, olive oil, herbs', allergens='None', serving_size='150g'),
@@ -44,7 +44,7 @@ with app.app_context():
         for meal in meals:
             db.session.add(meal)
     
-    # Add demo user following copilot BMI >= 30 eligibility
+    # Add demo user BMI >= 30 eligibility
     if not User.query.filter_by(email='demo@nutriassist.com').first():
         demo_user = User(
             email='demo@nutriassist.com',

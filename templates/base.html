@@ -10,7 +10,7 @@
     {% block extra_css %}{% endblock %}
 </head>
 <body>
-    <!-- Navigation following copilot blueprint organization -->
+    <!-- Navigation blueprint organization -->
     <nav class="navbar">
         <div class="nav-container">
             <a href="{{ url_for('home.index') }}" class="nav-logo">
@@ -49,7 +49,7 @@
         </div>
     </nav>
 
-    <!-- Flash messages following copilot API response conventions -->
+    <!-- Flash messages API response conventions -->
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             <div class="container">
@@ -90,7 +90,7 @@
                 <div class="footer-section">
                     <h4>Contact</h4>
                     <p>support@nutriassist.com</p>
-                    <p>+1 (555) 123-4567</p>
+                    <p>+966 55 123 4567</p>
                 </div>
             </div>
             <div class="footer-bottom">

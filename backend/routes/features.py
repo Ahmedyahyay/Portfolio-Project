@@ -4,7 +4,7 @@ features_bp = Blueprint('features', __name__)
 
 @features_bp.route('/')
 def index():
-    """Features page showcasing BMI >= 30 targeting following copilot business rules"""
+    """Features page showcasing BMI >= 30 targeting business rules"""
     features_list = [
         {
             'icon': 'fas fa-calculator',

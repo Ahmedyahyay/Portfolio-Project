@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Demo user population script following copilot health-centric patterns
+Demo user population script health-centric patterns
 Ensures demo user has proper username field
 """
 
@@ -18,7 +18,7 @@ def create_app():
     return app
 
 def create_demo_user():
-    """Create demo user with proper username following copilot patterns"""
+    """Create demo user with proper username patterns"""
     app = create_app()
     
     with app.app_context():
@@ -34,7 +34,7 @@ def create_demo_user():
             else:
                 print("✅ Demo user already exists with username")
         else:
-            # Create new demo user following copilot BMI >= 30 eligibility patterns
+            # Create new demo user BMI >= 30 eligibility patterns
             demo_user = User(
                 username='demo_user',
                 email='demo@nutriassist.com',

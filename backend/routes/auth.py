@@ -4,7 +4,7 @@ from models import db, User
 import re
 import logging
 
-# Setup logger following copilot QA integration patterns
+# Setup logger QA integration patterns
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
@@ -24,7 +24,7 @@ auth_bp = Blueprint('auth', __name__)
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
-    """Login page following copilot authentication patterns with enhanced error handling"""
+    """Login page authentication patterns with enhanced error handling"""
     if request.method == 'POST':
         email = None  # Initialize email for error handling
         try:
@@ -34,7 +34,7 @@ def login():
             # Debug logging for troubleshooting
             logger.info(f"Login attempt initiated for email: {email}")
             
-            # Validation following copilot API response conventions
+            # Validation API response conventions
             if not all([email, password]):
                 logger.warning(f"Login attempt with missing fields - email: {bool(email)}, password: {bool(password)}")
                 flash('Please enter both email and password', 'error')
@@ -91,7 +91,7 @@ def login():
                 flash('Authentication system error. Please try again.', 'error')
                 return render_template('login.html')
             
-            # BMI eligibility check following copilot business rules
+            # BMI eligibility check business rules
             try:
                 logger.debug(f"Checking BMI eligibility for user {email} - BMI: {user.BMI}")
                 
@@ -122,7 +122,7 @@ def login():
                 # Clear any existing session data safely
                 session.clear()
                 
-                # Store user session following copilot patterns
+                # Store user session patterns
                 session['user_id'] = user.id
                 session['user_email'] = user.email
                 session['user_username'] = user.username
@@ -152,7 +152,7 @@ def login():
 
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
-    """Registration with BMI eligibility enforcement and enhanced error handling following copilot patterns"""
+    """Registration with BMI eligibility enforcement and enhanced error handling patterns"""
     if request.method == 'POST':
         email = None  # Initialize for error handling
         try:
@@ -165,11 +165,11 @@ def register():
             
             logger.info(f"Registration attempt initiated for email: {email}")
             
-            # Generate username from email (before @ symbol) following copilot patterns
+            # Generate username from email (before @ symbol) patterns
             username = email.split('@')[0] if email else ''
             logger.debug(f"Generated initial username: {username} from email: {email}")
             
-            # Enhanced validation following copilot input sanitization patterns
+            # Enhanced validation input sanitization patterns
             if not all([email, password, height, weight]):
                 logger.warning(f"Registration attempt with missing required fields - email: {bool(email)}, password: {bool(password)}, height: {bool(height)}, weight: {bool(weight)}")
                 flash('Email, password, height, and weight are required', 'error')
@@ -231,12 +231,12 @@ def register():
                 flash('Unable to verify account availability. Please try again.', 'error')
                 return render_template('register.html')
             
-            # Calculate BMI following copilot health-centric data model with enhanced logging
+            # Calculate BMI health-centric data model with enhanced logging
             try:
                 bmi = round(weight_float / ((height_float / 100) ** 2), 2)
                 logger.debug(f"BMI calculated for {email}: {bmi} (Height: {height_float}cm, Weight: {weight_float}kg)")
                 
-                # BMI eligibility check following copilot business rules
+                # BMI eligibility check business rules
                 if bmi < 30.0:
                     logger.info(f"Registration rejected - BMI {bmi} below threshold for email: {email}")
                     flash(f'Your BMI is {bmi}. Our service is designed for adults with BMI ≥ 30. Please consult with a healthcare professional for personalized advice.', 'warning')
@@ -249,7 +249,7 @@ def register():
                 flash('Error calculating BMI. Please verify your height and weight.', 'error')
                 return render_template('register.html')
             
-            # Create user with all required fields following copilot patterns
+            # Create user with all required fields patterns
             try:
                 logger.debug(f"Creating new user object for {email}")
                 
@@ -339,7 +339,7 @@ def logout():
     try:
         user_email = session.get('user_email', 'Unknown')
         
-        # Clear session data following copilot patterns
+        # Clear session data patterns
         session.clear()
         
         logger.info(f"User logged out: {user_email}")
@@ -356,7 +356,7 @@ def logout():
         flash('Logged out successfully', 'info')
         return redirect(url_for('home.index'))
 
-# API endpoints following copilot API response conventions
+# API endpoints API response conventions
 @auth_bp.route('/api/register', methods=['POST'])
 def api_register():
     """API registration endpoint with proper logging"""

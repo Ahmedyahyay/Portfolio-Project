@@ -8,7 +8,7 @@ from models import db, Meal, FoodCategory
 logger = logging.getLogger(__name__)
 
 class USDANutritionFetcher:
-    """USDA FoodData Central API integration following copilot health-centric patterns"""
+    """USDA FoodData Central API integration health-centric patterns"""
     
     def __init__(self, api_key: str = 'DEMO_KEY'):
         self.api_key = api_key
@@ -16,7 +16,7 @@ class USDANutritionFetcher:
         self.session = requests.Session()
         
     def fetch_suitable_meals(self, target_count: int = 75) -> List[Dict]:
-        """Fetch meals suitable for BMI >= 30 demographic following copilot business rules"""
+        """Fetch meals suitable for BMI >= 30 demographic business rules"""
         logger.info(f"🔍 Fetching {target_count} suitable meals from USDA FoodData Central")
         
         # Search terms optimized for BMI >= 30 demographic
@@ -102,7 +102,7 @@ class USDANutritionFetcher:
         return data.get('foods', [])
     
     def _parse_food_to_meal(self, food_data: Dict, search_term: str) -> Optional[Dict]:
-        """Parse USDA food data to meal format following copilot health-centric model"""
+        """Parse USDA food data to meal format health-centric model"""
         try:
             food_id = food_data.get('fdcId')
             description = food_data.get('description', search_term)
@@ -138,7 +138,7 @@ class USDANutritionFetcher:
                 'serving_size': self._determine_serving_size(nutrients.get('calories', 100))
             }
             
-            # Calculate nutrition score following copilot patterns
+            # Calculate nutrition score patterns
             meal_data['nutrition_score'] = self._calculate_nutrition_score(meal_data)
             
             return meal_data
@@ -199,7 +199,7 @@ class USDANutritionFetcher:
         return name[:50] + '...' if len(name) > 50 else name
     
     def _determine_meal_type(self, name: str, search_term: str) -> str:
-        """Determine meal type following copilot health-centric patterns"""
+        """Determine meal type health-centric patterns"""
         combined_text = (name + ' ' + search_term).lower()
         
         if any(word in combined_text for word in ['oatmeal', 'yogurt', 'egg', 'toast', 'breakfast']):
@@ -262,7 +262,7 @@ class USDANutritionFetcher:
             return '250g'
     
     def _calculate_nutrition_score(self, meal_data: Dict) -> float:
-        """Calculate nutrition score following copilot health-centric patterns"""
+        """Calculate nutrition score health-centric patterns"""
         score = 0.0
         
         # Protein scoring (higher is better for weight management)
@@ -341,7 +341,7 @@ class USDANutritionFetcher:
         ]
 
 def populate_usda_meals(target_count: int = 75):
-    """Populate database with USDA meals following copilot health-centric patterns"""
+    """Populate database with USDA meals health-centric patterns"""
     logger.info("🍽️ Starting USDA meal population for BMI >= 30 demographic")
     
     # Check if meals already exist
@@ -406,7 +406,7 @@ def populate_usda_meals(target_count: int = 75):
         return existing_count
 
 def _populate_food_categories():
-    """Populate food categories following copilot health-centric patterns"""
+    """Populate food categories health-centric patterns"""
     categories = [
         {
             'name': 'High Protein',

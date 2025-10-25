@@ -5,9 +5,9 @@ home_bp = Blueprint('home', __name__)
 
 @home_bp.route('/')
 def index():
-    """Home page following copilot health-centric patterns"""
+    """Home page health-centric patterns"""
     try:
-        # Get stats for dashboard following copilot business rules
+        # Get stats for dashboard business rules
         total_users = User.query.count()
         eligible_users = User.query.filter(User.BMI >= 30.0).count()
         total_meals = Meal.query.count()

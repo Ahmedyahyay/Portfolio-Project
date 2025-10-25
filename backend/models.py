@@ -19,7 +19,7 @@ class User(db.Model):
     meal_history = db.relationship('MealHistory', backref='user', lazy=True)
 
     def calculate_bmi(self):
-        """Calculate BMI following copilot health-centric data model"""
+        """Calculate BMI health-centric data model"""
         if self.height and self.weight:
             # Critical: height in cm, convert to meters for BMI calculation
             height_m = self.height / 100
@@ -27,7 +27,7 @@ class User(db.Model):
         return self.BMI
 
     def is_eligible_for_service(self):
-        """Check BMI eligibility following copilot business rules"""
+        """Check BMI eligibility business rules"""
         return self.BMI and self.BMI >= 30.0
 
     def get_bmi_category(self):
@@ -93,7 +93,7 @@ class Meal(db.Model):
         return min(score, 50)  # Max score of 50
 
     def meets_eligibility_criteria(self, user_bmi):
-        """Check if meal meets criteria for BMI >= 30 demographic following copilot business rules"""
+        """Check if meal meets criteria for BMI >= 30 demographic business rules"""
         if user_bmi < 30:
             return False
         
@@ -116,11 +116,11 @@ class Meal(db.Model):
         if (self.sugar or 0) <= 15:
             criteria_met += 1
         
-        # Must meet at least 75% of criteria following copilot health-centric patterns
+        # Must meet at least 75% of criteria health-centric patterns
         return criteria_met >= (total_criteria * 0.75)
 
     def to_dict(self):
-        """Convert meal to dictionary for API responses following copilot patterns"""
+        """Convert meal to dictionary for API responses patterns"""
         return {
             'id': self.id,
             'name': self.name,
@@ -153,7 +153,7 @@ class MealHistory(db.Model):
     portion_size = db.Column(db.Float, default=1.0)  # multiplier for serving
 
     def calculate_adjusted_nutrition(self):
-        """Calculate nutrition based on portion size following copilot health-centric model"""
+        """Calculate nutrition based on portion size health-centric model"""
         if not self.meal:
             return {}
         

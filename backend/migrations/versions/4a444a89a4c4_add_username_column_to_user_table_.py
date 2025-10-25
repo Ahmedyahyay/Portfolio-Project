@@ -1,4 +1,4 @@
-"""Add username column to User table following copilot health-centric patterns
+"""Add username column to User table health-centric patterns
 
 Revision ID: 4a444a89a4c4
 Revises: 6e3ff736e511

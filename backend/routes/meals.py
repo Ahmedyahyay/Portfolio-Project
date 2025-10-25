@@ -13,7 +13,7 @@ def index():
         max_calories = request.args.get('max_calories', type=int)
         min_protein = request.args.get('min_protein', type=float)
         
-        # Build query following copilot patterns - NO LIMITS, return ALL meals
+        # Build query patterns - NO LIMITS, return ALL meals
         meals_query = Meal.query
         
         # Apply filters only if specified, otherwise show ALL meals
@@ -37,7 +37,7 @@ def index():
         # Get ALL meals - no pagination, no limits
         meals = meals_query.all()
         
-        # Calculate nutrition scores and eligibility for ALL meals following copilot health patterns
+        # Calculate nutrition scores and eligibility for ALL meals health patterns
         for meal in meals:
             meal.nutrition_score = meal.calculate_nutrition_score()
             meal.eligible_for_target = meal.meets_eligibility_criteria(30.0)
@@ -80,7 +80,7 @@ def index():
 
 @meals_bp.route('/api/search')
 def api_search():
-    """API endpoint for meal search following copilot API response conventions - returns ALL matching results"""
+    """API endpoint for meal search API response conventions - returns ALL matching results"""
     try:
         query = request.args.get('q', '').strip()
         meal_type = request.args.get('type', '').strip()
@@ -131,7 +131,7 @@ def api_search():
 
 @meals_bp.route('/api/all')
 def api_all_meals():
-    """API endpoint to get ALL meals with complete data following copilot patterns"""
+    """API endpoint to get ALL meals with complete data patterns"""
     try:
         # Get absolutely ALL meals from database
         meals = Meal.query.all()

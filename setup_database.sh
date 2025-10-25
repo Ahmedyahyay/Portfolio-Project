@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "🗄️ Personal Nutrition Assistant - Database Migration Setup"
-echo "Following copilot instructions database migration workflow"
+echo "instructions database migration workflow"
 echo "=========================================================="
 
 PROJECT_ROOT="/home/ahmed/Portfolio-Project"
@@ -33,7 +33,7 @@ fi
 
 # Create initial migration with all models
 echo "🔄 Creating initial migration..."
-flask db migrate -m "Initial migration with health-centric data model following copilot patterns - User, Meal, MealHistory, NutritionGoal, UserProfile, MealRating, FoodCategory models"
+flask db migrate -m "Initial migration with health-centric data model patterns - User, Meal, MealHistory, NutritionGoal, UserProfile, MealRating, FoodCategory models"
 
 # Apply the migration
 echo "⬆️  Applying database migration..."

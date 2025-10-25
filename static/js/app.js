@@ -1,4 +1,4 @@
-// Enhanced JavaScript for modern interactive elements following copilot patterns
+// Enhanced JavaScript for modern interactive elements patterns
 
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize all interactive components

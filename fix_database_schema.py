@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Database schema fix script following copilot database migration workflow
+Database schema fix script database migration workflow
 Adds missing username column to User table
 """
 
@@ -30,7 +30,7 @@ def create_app():
 def fix_database_schema():
     """Fix database schema by adding missing username column"""
     print("🔧 Personal Nutrition Assistant - Database Schema Fix")
-    print("Following copilot instructions database migration workflow")
+    print("instructions database migration workflow")
     print("Adding missing username column to User table")
     print("=" * 60)
     
@@ -63,7 +63,7 @@ def fix_database_schema():
                     
                     # Create migration to add username column
                     print("🔄 Creating migration to add username column...")
-                    migrate(message="Add username column to User table following copilot patterns")
+                    migrate(message="Add username column to User table patterns")
                     
                     # Apply migration
                     print("⬆️  Applying migration to add username column...")

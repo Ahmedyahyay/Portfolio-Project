@@ -5,14 +5,14 @@ contact_bp = Blueprint('contact', __name__)
 
 @contact_bp.route('/', methods=['GET', 'POST'])
 def index():
-    """Contact page with form handling following copilot API response conventions"""
+    """Contact page with form handling API response conventions"""
     if request.method == 'POST':
         name = request.form.get('name', '').strip()
         email = request.form.get('email', '').strip()
         subject = request.form.get('subject', '').strip()
         message = request.form.get('message', '').strip()
         
-        # Validation following copilot input sanitization patterns
+        # Validation input sanitization patterns
         if not all([name, email, subject, message]):
             flash('All fields are required', 'error')
         elif not re.match(r'^[^\s@]+@[^\s@]+\.[^\s@]+$', email):
@@ -24,9 +24,9 @@ def index():
     
     contact_info = {
         'email': 'support@nutriassist.com',
-        'phone': '+1 (555) 123-4567',
-        'address': '123 Health Street, Nutrition City, NC 12345',
-        'hours': 'Monday - Friday: 8:00 AM - 6:00 PM EST'
+        'phone': '+966 55 123 4567',
+        'address': 'Al Olaya District, King Fahd Road, Riyadh 12211, Saudi Arabia',
+        'hours': 'Sunday – Thursday: 08:00 – 17:00'
     }
     
     return render_template('contact.html', contact=contact_info)

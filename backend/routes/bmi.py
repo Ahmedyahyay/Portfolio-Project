@@ -6,7 +6,7 @@ bmi_bp = Blueprint('bmi', __name__)
 
 @bmi_bp.route('/', methods=['GET', 'POST'])
 def calculator():
-    """BMI calculator page following copilot health-centric patterns"""
+    """BMI calculator page health-centric patterns"""
     bmi_result = None
     
     if request.method == 'POST':
@@ -18,10 +18,10 @@ def calculator():
                 flash('Please enter valid height (100-250 cm) and weight (30-300 kg)', 'error')
                 return render_template('bmi.html', result=None)
             
-            # BMI calculation following copilot pattern (height in cm)
+            # BMI calculation pattern (height in cm)
             bmi = round(weight / ((height / 100) ** 2), 2)
             
-            # Determine category following copilot health-centric patterns
+            # Determine category health-centric patterns
             if bmi < 18.5:
                 category = 'Underweight'
             elif bmi < 25:
@@ -35,7 +35,7 @@ def calculator():
             else:
                 category = 'Class III Obesity'
             
-            # Eligibility check following copilot business rules
+            # Eligibility check business rules
             eligible = bmi >= 30.0
             
             bmi_result = {
@@ -58,13 +58,13 @@ def calculator():
 
 @bmi_bp.route('/api/calculate', methods=['POST'])
 def api_calculate():
-    """API endpoint for BMI calculation following copilot API response conventions"""
+    """API endpoint for BMI calculation API response conventions"""
     try:
         data = request.get_json()
         height = float(data.get('height', 0))
         weight = float(data.get('weight', 0))
         
-        # Input validation following copilot input sanitization patterns
+        # Input validation input sanitization patterns
         if not (100 <= height <= 250) or not (30 <= weight <= 300):
             return jsonify({'error': 'Invalid input'}), 400
         

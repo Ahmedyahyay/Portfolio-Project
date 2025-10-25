@@ -1,4 +1,4 @@
-# Central blueprint registry following copilot blueprint organization
+# Central blueprint registry blueprint organization
 from .auth import auth_bp
 from .meals import meals_bp
 from .bmi import bmi_bp
@@ -15,7 +15,7 @@ def register_blueprints(app):
     app.register_blueprint(features_bp, url_prefix='/features')
     app.register_blueprint(contact_bp, url_prefix='/contact')
     
-    # Add API info route following copilot API response conventions
+    # Add API info route API response conventions
     @app.route('/api')
     def api_info():
         return {

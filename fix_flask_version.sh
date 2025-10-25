@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "🔧 Personal Nutrition Assistant - Flask Version Fix"
-echo "Following copilot instructions for TypeError: 'partitioned' cookie fix"
+echo "instructions for TypeError: 'partitioned' cookie fix"
 echo "=================================================================="
 
 PROJECT_ROOT="/home/ahmed/Portfolio-Project"

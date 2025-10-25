@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-USDA data population script following copilot health-centric patterns
+USDA data population script health-centric patterns
 """
 
 import os
@@ -30,7 +30,7 @@ def create_app():
 def main():
     """Main function to populate USDA nutrition data"""
     print("🍽️ Personal Nutrition Assistant - USDA Data Population")
-    print("Following copilot instructions health-centric data model")
+    print("instructions health-centric data model")
     print("Target: 75 meals suitable for BMI >= 30 demographic")
     print("=" * 65)
     
